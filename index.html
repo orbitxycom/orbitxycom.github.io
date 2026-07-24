@@ -60,6 +60,26 @@
   .stat-item b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.7rem;color:var(--aqua);}
   .stat-item span{color:var(--muted);font-size:.8rem;}
 
+  /* Visi Misi */
+  .vm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+  .vm-card{
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;position:relative;overflow:hidden;
+  }
+  .vm-card.visi::before{content:'';position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle, rgba(94,234,212,.12), transparent 70%);}
+  .vm-card.misi::before{content:'';position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle, rgba(255,138,76,.12), transparent 70%);}
+  .vm-icon{
+    width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    background:var(--bg-panel-2);border:1px solid var(--line);margin-bottom:16px;position:relative;
+  }
+  .vm-card.visi .vm-icon{color:var(--aqua);}
+  .vm-card.misi .vm-icon{color:var(--amber);}
+  .vm-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;margin-bottom:10px;position:relative;}
+  .vm-card p{color:var(--muted);font-size:.9rem;line-height:1.6;position:relative;}
+  .vm-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px;position:relative;}
+  .vm-list li{color:var(--muted);font-size:.88rem;line-height:1.5;padding-left:20px;position:relative;}
+  .vm-list li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--amber);}
+
   .filter-row{display:flex;gap:10px;flex-wrap:wrap;padding:44px 6vw 30px;position:relative;z-index:1;}
   .filter-chip{
     border:1px solid var(--line);padding:8px 16px;border-radius:999px;font-size:.82rem;color:var(--muted);
@@ -157,6 +177,7 @@
   <div class="logo">orbit<span>xy</span></div>
   <nav>
     <ul>
+      <li><a href="#visi-misi">Visi &amp; Misi</a></li>
       <li><a href="#produk">Produk</a></li>
       <li><a href="#ulasan">Ulasan</a></li>
       <li><a href="#faq">FAQ</a></li>
@@ -177,6 +198,30 @@
   <div class="stat-item"><b class="mono">2.5rb+</b><span>Transaksi selesai</span></div>
   <div class="stat-item"><b class="mono">4.8/5</b><span>Rating pengguna</span></div>
 </div>
+
+<section id="visi-misi">
+  <div class="section-head">
+    <span class="eyebrow">Tentang kami</span>
+    <h2>Visi &amp; Misi</h2>
+  </div>
+  <div class="vm-grid">
+    <div class="vm-card visi">
+      <div class="vm-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/></svg></div>
+      <h3>Visi</h3>
+      <p>Menjadi platform digital marketplace terpercaya di Indonesia yang menghadirkan layanan hosting, akun premium, dan produk digital secara instan, aman, dan dapat diakses siapa saja, kapan saja.</p>
+    </div>
+    <div class="vm-card misi">
+      <div class="vm-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></div>
+      <h3>Misi</h3>
+      <ul class="vm-list">
+        <li>Menyediakan proses transaksi otomatis 24 jam tanpa perlu menunggu admin.</li>
+        <li>Menjamin keamanan dan garansi aktif untuk setiap produk yang dijual.</li>
+        <li>Memberi kesempatan siapa saja untuk berjualan lewat program reseller.</li>
+        <li>Terus mengembangkan layanan sesuai kebutuhan digital masyarakat.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
 <div class="filter-row" role="group" aria-label="Filter kategori produk" id="filterRow">
   <button class="filter-chip on" data-filter="Semua">Semua</button>
@@ -308,6 +353,7 @@
     <div class="faq-item">
       <button class="faq-q">Apakah ada garansi kalau akun/panel bermasalah?<span class="plus">+</span></button>
       <div class="faq-a"><p>Ya, semua produk punya garansi aktif. Kalau ada kendala, tinggal hubungi Live Chat untuk penggantian.</p></div>
+      <div class="faq-a"><p>Ya, semua produk punya garansi aktif. Kalau ada kendala, tinggal hubungi Live Chat untuk penggantian.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">Bagaimana cara jadi reseller?<span class="plus">+</span></button>
@@ -362,7 +408,8 @@
     </ul>
   </div>
   <div class="foot-bottom">
-    <span>&copy; 2026 orbitxy. Semua hak dilindungi.</span
+    <span>&copy; 2026 orbitxy. Semua hak dilindungi.</span>
+    <span>Dibuat dengan ⚡ otomatisasi QRIS</span>
   </div>
 </footer>
 
