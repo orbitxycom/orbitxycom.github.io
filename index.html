@@ -45,6 +45,18 @@
   .badge{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;}
   .badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);}
 
+  /* Preview screenshots */
+  .preview-row{
+    position:relative;z-index:1;display:flex;gap:20px;flex-wrap:wrap;
+    padding:0 6vw 10px;margin-top:36px;
+  }
+  .preview-shot{
+    flex:1;min-width:220px;border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;background:var(--bg-panel);
+  }
+  .preview-shot img{display:block;width:100%;height:auto;}
+  .preview-cap{padding:12px 16px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);}
+
   .hero{position:relative;z-index:1;padding:70px 6vw 10px;max-width:720px;}
   .hero h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,4vw,3rem);line-height:1.1;letter-spacing:-.01em;}
   .hero h1 .accent{color:var(--aqua);}
@@ -190,6 +202,17 @@
   <div class="badge">Portofolio produk</div>
   <h1>Semua yang orbitxy jual, <span class="accent">dalam satu halaman.</span></h1>
   <p>Panel, akun premium, script, sampai OTP — ini daftar lengkap produk yang tersedia di orbitxy.com, siap dibeli dan aktif otomatis lewat QRIS.</p>
+</div>
+
+<div class="preview-row">
+  <div class="preview-shot">
+    <img src="Screenshot_20260802-153527.jpg" alt="Tampilan beranda orbitxy.com" loading="lazy">
+    <div class="preview-cap">Tampilan beranda orbitxy.com</div>
+  </div>
+  <div class="preview-shot">
+    <img src="Screenshot_20260802-153538.jpg" alt="Menu navigasi orbitxy.com" loading="lazy">
+    <div class="preview-cap">Menu lengkap orbitxy.com</div>
+  </div>
 </div>
 
 <div class="stats-row">
@@ -352,7 +375,6 @@
     </div>
     <div class="faq-item">
       <button class="faq-q">Apakah ada garansi kalau akun/panel bermasalah?<span class="plus">+</span></button>
-      <div class="faq-a"><p>Ya, semua produk punya garansi aktif. Kalau ada kendala, tinggal hubungi Live Chat untuk penggantian.</p></div>
       <div class="faq-a"><p>Ya, semua produk punya garansi aktif. Kalau ada kendala, tinggal hubungi Live Chat untuk penggantian.</p></div>
     </div>
     <div class="faq-item">
