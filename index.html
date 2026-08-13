@@ -1,8 +1,162 @@
-<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.4/dist/dotlottie-wc.js" type="module"></script>
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#08090c" />
 
-<dotlottie-wc
-  src="https://lottie.host/533ef4dc-760d-498e-9cf7-2a74cf1e3d86/93ZVvKSrS8.json"
-  style="width: 300px; height: 300px; background: transparent;"
-  autoplay
-  loop>
-</dotlottie-wc>
+    <!-- Primary SEO -->
+    <title>Sentinel X - Kelola &amp; Pantau Banyak Nomor WhatsApp</title>
+    <meta
+      name="description"
+      content="Sentinel X adalah dashboard untuk menyambungkan nomor WhatsApp milikmu sendiri, menjalankan pengiriman pesan ke penerima yang sudah setuju dihubungi, dan memantau status pengiriman secara realtime. Atur kecepatan kirim dan batas harian tiap nomor."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+    <meta
+      name="keywords"
+      content="sentinel x, kelola nomor whatsapp, dashboard multi nomor, manajemen nomor whatsapp, otomasi pengiriman pesan, pemantauan status pengiriman"
+    />
+    <link rel="canonical" href="https://sentinel-wa.com/" />
+
+    <!-- Open Graph (Facebook / WhatsApp / Telegram) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sentinel X" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:url" content="https://sentinel-wa.com/" />
+    <meta property="og:title" content="Sentinel X - Kelola &amp; Pantau Banyak Nomor WhatsApp" />
+    <meta
+      property="og:description"
+      content="Dashboard untuk menyambungkan dan mengelola banyak nomor WhatsApp milikmu, menjalankan pengiriman pesan ke penerima yang sudah setuju dihubungi, dan memantau status pengiriman secara realtime."
+    />
+    <!-- Absolute URL required — WhatsApp/Telegram/FB skip relative og:image paths. -->
+    <meta property="og:image" content="https://sentinel-wa.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Sentinel X, dashboard untuk mengelola dan memantau banyak nomor WhatsApp" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sentinel X - Kelola &amp; Pantau Banyak Nomor WhatsApp" />
+    <meta
+      name="twitter:description"
+      content="Kelola banyak nomor WhatsApp dari satu dashboard, jalankan pengiriman pesan ke penerima yang sudah setuju dihubungi, dan pantau status pengiriman realtime."
+    />
+    <meta name="twitter:image" content="https://sentinel-wa.com/og.png" />
+    <meta name="twitter:image:alt" content="Sentinel X, dashboard pengelolaan banyak nomor WhatsApp" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured data: brand entity + web app. No aggregateRating (no fabricated reviews).
+         FAQ answers MUST stay identical to the rendered FAQ copy in translations.js (landing.faq*A). -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://sentinel-wa.com/#organization",
+            "name": "Sentinel X",
+            "url": "https://sentinel-wa.com/",
+            "logo": "https://sentinel-wa.com/icon-512.png",
+            "image": "https://sentinel-wa.com/og.png",
+            "description": "Sentinel X adalah dashboard untuk menyambungkan dan mengelola banyak nomor WhatsApp milik pengguna, menjalankan pengiriman pesan ke penerima yang sudah setuju dihubungi, dan memantau status pengiriman secara realtime."
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://sentinel-wa.com/#website",
+            "url": "https://sentinel-wa.com/",
+            "name": "Sentinel X",
+            "inLanguage": "id-ID",
+            "publisher": { "@id": "https://sentinel-wa.com/#organization" }
+          },
+          {
+            "@type": "WebApplication",
+            "name": "Sentinel X",
+            "url": "https://sentinel-wa.com/",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "inLanguage": "id-ID",
+            "publisher": { "@id": "https://sentinel-wa.com/#organization" },
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "IDR" },
+            "description": "Kelola banyak nomor WhatsApp dari satu dashboard: sambungkan nomor milikmu, atur kecepatan kirim dan batas harian, jalankan pengiriman pesan, lalu pantau status pengiriman secara realtime."
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://sentinel-wa.com/#faq",
+            "inLanguage": "id-ID",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Bagaimana cara menghasilkan uang di Sentinel X?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Kamu menyambungkan nomor WhatsApp milikmu sendiri, lalu sistem mengirim pesan ke daftar penerima. Kamu dibayar untuk tiap pesan yang benar-benar sampai ke penerima, bukan yang sekadar terkirim."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Berapa penghasilan yang bisa saya dapat?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Bayaran dihitung per pesan yang benar-benar sampai ke penerima, bukan sekadar terkirim. Besarnya bergantung pada berapa banyak pesanmu yang sampai, jadi tidak ada jumlah yang bisa kami jamin. Semua bisa kamu pantau realtime di dasbor."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Apakah aman untuk nomor WhatsApp saya?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Jujur saja: mengirim pesan dalam jumlah besar berisiko membuat nomor dibatasi atau diblokir WhatsApp, dan risiko itu ada padamu sebagai pemilik nomor. Kami sediakan pengaturan kecepatan dan batas harian untuk menekan risiko, tapi tidak ada jaminan nomor bebas dari pemblokiran. Kamu bisa menghentikan nomor kapan saja lewat dasbor."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Kapan dan bagaimana saya dibayar?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Saldo bertambah otomatis setiap ada pesan terkirim. Kamu bisa menariknya ke rekening bank kapan saja lewat menu Penarikan setelah mencapai minimum."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Berapa nomor yang bisa saya sambungkan?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Kamu bisa menyambungkan banyak nomor sekaligus dan memantau semuanya dari satu dasbor. Tiap nomor punya pengaturan kecepatan dan kuota sendiri."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Siapa saja yang boleh saya kirimi pesan?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Hanya penerima yang sudah setuju untuk dihubungi. Sentinel X ditujukan untuk menjangkau kontak yang memberi izin, bukan untuk spam ke nomor acak. Kamu wajib mematuhi Ketentuan WhatsApp dan aturan yang berlaku di wilayahmu. Akun yang dipakai untuk spam bisa kami hentikan."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/index-Cq_s6my3.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-Fq6ZWNUD.js">
+    <link rel="modulepreload" crossorigin href="/assets/datepicker-DNS1eGni.js">
+    <link rel="modulepreload" crossorigin href="/assets/socket-QyAzXPig.js">
+    <link rel="modulepreload" crossorigin href="/assets/icons-BSOqEovS.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-DLW-hLW0.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"ed0572ca0b3442db89ef6d1d5b1819ef","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>
