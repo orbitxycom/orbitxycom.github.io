@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar</title>
+<style>
+  :root{
+    --bg: #ffffff;
+    --surface: #f4f5f7;
+    --surface-2: #eceef1;
+    --accent: #8b5cf6;
+    --accent-dim: rgba(139,92,246,0.12);
+    --text: #16181c;
+    --text-dim: #8a919a;
+    --border: #e4e6e9;
+    --danger: #ef4444;
+    --success: #22c55e;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .brand-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+  .brand-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .brand-logo svg { width: 32px; height: 32px; }
+  .brand-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .brand-sub {
+    font-size: 14px;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  .signup-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 24px;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-wrap svg.icon {
+    position: absolute;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    color: var(--text-dim);
+    pointer-events: none;
+  }
+  .field input {
+    width: 100%;
+    height: 50px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    background: #ffffff;
+    padding: 0 14px 0 42px;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .field input::placeholder { color: var(--text-dim); }
+  .field input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-dim);
+  }
+  .field input.invalid {
+    border-color: var(--danger);
+  }
+  .toggle-pass {
+    position: absolute;
+    right: 14px;
+    width: 20px;
+    height: 20px;
+    color: var(--text-dim);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .toggle-pass svg { width: 20px; height: 20px; }
+
+  .hint {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+  .hint.invalid { color: var(--danger); }
+
+  /* Indikator kekuatan kata sandi */
+  .strength-bar {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .strength-bar span {
+    height: 4px;
+    flex: 1;
+    border-radius: 2px;
+    background: var(--border);
+    transition: background 0.2s ease;
+  }
+  .strength-label {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  .terms {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 20px 0;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    cursor: pointer;
+    user-select: none;
+  }
+  .terms input {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+  }
+  .terms a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .btn-daftar {
+    width: 100%;
+    height: 52px;
+    border-radius: 16px;
+    border: none;
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    box-shadow: 0 8px 20px rgba(139,92,246,0.30);
+  }
+  .btn-daftar:active { transform: scale(0.97); }
+  .btn-daftar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .error-msg {
+    display: none;
+    font-size: 13px;
+    color: var(--danger);
+    background: rgba(239,68,68,0.10);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+  .error-msg.show { display: block; }
+
+  .login-row {
+    text-align: center;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    margin-top: 24px;
+  }
+  .login-row a {
+    color: var(--accent);
+    font-weight: 700;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="content">
+
+    <div class="brand-wrap">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <line x1="19" y1="8" x2="19" y2="14"></line>
+          <line x1="22" y1="11" x2="16" y2="11"></line>
+        </svg>
+      </div>
+      <div class="brand-title">Buat akun baru</div>
+      <div class="brand-sub">Isi data di bawah untuk mulai menggunakan aplikasi</div>
+    </div>
+
+    <form class="signup-card" id="signupForm" novalidate>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <div class="field">
+        <label for="name">Nama Lengkap</label>
+        <div class="input-wrap">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path>
+          </svg>
+          <input type="text" id="name" placeholder="Nama kamu" autocomplete="name" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <div class="input-wrap">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="m22 6-10 7L2 6"></path>
+          </svg>
+          <input type="email" id="email" placeholder="nama@email.com" autocomplete="email" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="password">Kata Sandi</label>
+        <div class="input-wrap">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <input type="password" id="password" placeholder="Buat kata sandi" autocomplete="new-password" required style="padding-right:42px;">
+          <button type="button" class="toggle-pass" data-target="password" aria-label="Tampilkan kata sandi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+        <div class="strength-bar" id="strengthBar">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="strength-label" id="strengthLabel">Minimal 8 karakter</div>
+      </div>
+
+      <div class="field">
+        <label for="confirmPassword">Konfirmasi Kata Sandi</label>
+        <div class="input-wrap">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <input type="password" id="confirmPassword" placeholder="Ulangi kata sandi" autocomplete="new-password" required style="padding-right:42px;">
+          <button type="button" class="toggle-pass" data-target="confirmPassword" aria-label="Tampilkan kata sandi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+        <div class="hint" id="matchHint"></div>
+      </div>
+
+      <label class="terms">
+        <input type="checkbox" id="agreeTerms">
+        <span>Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a>.</span>
+      </label>
+
+      <button type="submit" class="btn-daftar" id="submitBtn">Daftar</button>
+
+      <div class="login-row">
+        Sudah punya akun? <a href="login.html">Masuk</a>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('signupForm');
+  const errorMsg = document.getElementById('errorMsg');
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirmPassword');
+  const agreeTerms = document.getElementById('agreeTerms');
+  const strengthBar = document.getElementById('strengthBar');
+  const strengthLabel = document.getElementById('strengthLabel');
+  const matchHint = document.getElementById('matchHint');
+
+  // Toggle tampilkan/sembunyikan kata sandi
+  document.querySelectorAll('.toggle-pass').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const target = document.getElementById(this.dataset.target);
+      target.type = target.type === 'password' ? 'text' : 'password';
+    });
+  });
+
+  // Indikator kekuatan kata sandi sederhana
+  passwordInput.addEventListener('input', function() {
+    const val = this.value;
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+
+    const bars = strengthBar.querySelectorAll('span');
+    const colors = ['#ef4444', '#f59e0b', '#eab308', '#22c55e'];
+    bars.forEach((bar, i) => {
+      bar.style.background = i < score ? colors[score - 1] : 'var(--border)';
+    });
+
+    const labels = ['Lemah', 'Cukup', 'Baik', 'Kuat'];
+    strengthLabel.textContent = val.length === 0 ? 'Minimal 8 karakter' : (labels[score - 1] || 'Lemah');
+  });
+
+  confirmInput.addEventListener('input', checkMatch);
+  passwordInput.addEventListener('input', checkMatch);
+
+  function checkMatch() {
+    if (!confirmInput.value) {
+      matchHint.textContent = '';
+      matchHint.classList.remove('invalid');
+      return;
+    }
+    if (confirmInput.value === passwordInput.value) {
+      matchHint.textContent = 'Kata sandi cocok';
+      matchHint.classList.remove('invalid');
+    } else {
+      matchHint.textContent = 'Kata sandi tidak cocok';
+      matchHint.classList.add('invalid');
+    }
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    errorMsg.classList.remove('show');
+
+    if (!nameInput.value.trim() || !emailInput.value.trim() || !passwordInput.value || !confirmInput.value) {
+      errorMsg.textContent = 'Mohon lengkapi semua data.';
+      errorMsg.classList.add('show');
+      return;
+    }
+    if (passwordInput.value.length < 8) {
+      errorMsg.textContent = 'Kata sandi minimal 8 karakter.';
+      errorMsg.classList.add('show');
+      return;
+    }
+    if (passwordInput.value !== confirmInput.value) {
+      errorMsg.textContent = 'Konfirmasi kata sandi tidak cocok.';
+      errorMsg.classList.add('show');
+      return;
+    }
+    if (!agreeTerms.checked) {
+      errorMsg.textContent = 'Kamu perlu menyetujui Syarat & Ketentuan terlebih dahulu.';
+      errorMsg.classList.add('show');
+      return;
+    }
+
+    // Placeholder proses daftar — sambungkan ke backend/API di sini
+    alert('Pendaftaran berhasil (contoh). Sambungkan ke sistem autentikasi kamu.');
+    // Contoh redirect setelah daftar sukses:
+    // window.location.href = "login.html";
+  });
+</script>
+
+</body>
+</html>
