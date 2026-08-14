@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.4/dist/dotlottie-wc.js" type="module"></script>
 <style>
   :root {
     --bg: #000000;
@@ -66,69 +67,15 @@
     pointer-events: none;
   }
 
-  /* ---- Carousel kartu (menggantikan ilustrasi bintang) ---- */
-  .carousel-stage {
+  .lottie-wrap {
     position: relative;
-    margin-top: 10vh;
-    width: 100%;
-    height: 200px;
+    margin: 10vh auto 0;
+    width: 260px;
+    height: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
-    touch-action: none;
-    cursor: grab;
   }
-  .carousel-stage.dragging { cursor: grabbing; }
-
-  .track {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  .card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 130px;
-    height: 170px;
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 16px 14px;
-    box-shadow: 0 16px 32px rgba(0,0,0,0.45);
-    will-change: transform, opacity;
-  }
-
-  .card .icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 12px;
-  }
-
-  .card h3 {
-    margin: 0 0 4px;
-    font-size: 14px;
-    font-weight: 800;
-    color: #1a2233;
-    letter-spacing: -0.02em;
-    font-family: 'Baloo 2', sans-serif;
-  }
-
-  .card p {
-    margin: 0;
-    font-size: 10.5px;
-    line-height: 1.3;
-    color: #6b7280;
-  }
-
-  /* ---- end carousel ---- */
 
   .content {
     position: relative;
@@ -201,8 +148,8 @@
   <div class="screen">
     <div class="rays"></div>
 
-    <div class="carousel-stage" id="stage">
-      <div class="track" id="track"></div>
+    <div class="lottie-wrap">
+      <dotlottie-wc src="https://lottie.host/fee0ee8a-8f09-4d8b-981e-50f6edcc1c2b/fPkxTExMAm.json" style="width: 260px; height: 260px" autoplay loop></dotlottie-wc>
     </div>
 
     <div class="content">
@@ -215,94 +162,5 @@
       <a class="btn-secondary" href="/create-account/">Create account</a>
     </div>
   </div>
-
-<script>
-  const cards = [
-    { icon: '🏆', bg: 'linear-gradient(135deg,#f9a825,#f57f17)', title: 'Task Master', desc: 'The ultimate game of productivity' },
-    { icon: '✕', bg: 'linear-gradient(135deg,#34d399,#059669)', title: 'Word Guess', desc: 'Competitive wordle style game' },
-    { icon: '☰', bg: 'linear-gradient(135deg,#fbbf24,#f59e0b)', title: 'Notes', desc: 'Easily jot down notes, ideas' },
-    { icon: '♪', bg: 'linear-gradient(135deg,#818cf8,#6366f1)', title: 'Tune Flow', desc: 'Discover your next favorite song' },
-    { icon: '◆', bg: 'linear-gradient(135deg,#f472b6,#ec4899)', title: 'Focus Timer', desc: 'Stay sharp with timed sessions' }
-  ];
-
-  const track = document.getElementById('track');
-  const stage = document.getElementById('stage');
-
-  cards.forEach((c) => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div class="icon" style="background:${c.bg}">${c.icon}</div>
-      <h3>${c.title}</h3>
-      <p>${c.desc}</p>
-    `;
-    track.appendChild(card);
-  });
-
-  const cardEls = Array.from(track.children);
-
-  let current = 1;
-  let dragOffset = 0;
-  let startX = 0;
-  let dragging = false;
-  const SPACING = 190;
-
-  function render(animated) {
-    cardEls.forEach((el, i) => {
-      const diff = i - current;
-      const x = diff * SPACING + dragOffset;
-      const dist = Math.abs(x);
-      const rotate = Math.max(-16, Math.min(16, x / 14));
-      const scale = Math.max(0.72, 1 - dist / 700);
-      const opacity = Math.max(0, 1 - dist / 380);
-      const z = 100 - Math.round(dist);
-
-      el.style.transition = animated
-        ? 'transform 0.45s cubic-bezier(.22,1,.36,1), opacity 0.45s ease'
-        : 'none';
-      el.style.transform =
-        `translate(-50%, -50%) translateX(${x}px) rotate(${rotate}deg) scale(${scale})`;
-      el.style.opacity = opacity;
-      el.style.zIndex = z;
-    });
-  }
-
-  function onStart(x) {
-    dragging = true;
-    startX = x;
-    stage.classList.add('dragging');
-  }
-
-  function onMove(x) {
-    if (!dragging) return;
-    dragOffset = x - startX;
-    render(false);
-  }
-
-  function onEnd() {
-    if (!dragging) return;
-    dragging = false;
-    stage.classList.remove('dragging');
-
-    const threshold = SPACING / 4;
-    if (dragOffset < -threshold && current < cardEls.length - 1) {
-      current++;
-    } else if (dragOffset > threshold && current > 0) {
-      current--;
-    }
-    dragOffset = 0;
-    render(true);
-  }
-
-  stage.addEventListener('pointerdown', e => {
-    e.preventDefault();
-    onStart(e.clientX);
-  });
-  window.addEventListener('pointermove', e => onMove(e.clientX));
-  window.addEventListener('pointerup', onEnd);
-  window.addEventListener('pointercancel', onEnd);
-
-  render(false);
-</script>
 </body>
 </html>
