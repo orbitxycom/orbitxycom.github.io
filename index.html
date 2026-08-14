@@ -40,6 +40,9 @@
   .content {
     padding: 20px;
   }
+  .view[hidden] {
+    display: none;
+  }
   .box-main {
     width: 100%;
     aspect-ratio: 16 / 7;
@@ -47,6 +50,51 @@
     border: 1px solid var(--border);
     border-radius: 20px;
     margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+  }
+  .avatar-wrap {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+  }
+  .avatar-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    overflow: hidden;
+  }
+  .avatar-circle svg {
+    width: 36px;
+    height: 36px;
+  }
+  .avatar-edit-btn {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2.5px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(16,18,20,0.18);
+  }
+  .avatar-edit-btn svg {
+    width: 14px;
+    height: 14px;
+    color: #ffffff;
   }
   .box-row {
     display: flex;
@@ -178,17 +226,41 @@
 
 <div class="app">
   <div class="content">
-    <div class="box-main"></div>
-    <div class="box-row">
-      <div class="box-half"></div>
-      <div class="box-half"></div>
+
+    <!-- Tampilan Dashboard (default) -->
+    <div class="view" id="view-dashboard">
+      <div class="box-main"></div>
+      <div class="box-row">
+        <div class="box-half"></div>
+        <div class="box-half"></div>
+      </div>
     </div>
+
+    <!-- Tampilan Profil (muncul saat ikon Profil dipencet) -->
+    <div class="view" id="view-profil" hidden>
+      <div class="box-main" style="margin-bottom:0;">
+        <div class="avatar-wrap">
+          <div class="avatar-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path>
+            </svg>
+          </div>
+          <button class="avatar-edit-btn" aria-label="Ganti foto profil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <nav class="navbar">
     <button class="nav-item active" aria-label="Dashboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
         <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
         <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
         <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
@@ -230,13 +302,26 @@
 
 <script>
   const navItems = document.querySelectorAll('.nav-item');
+  const viewDashboard = document.getElementById('view-dashboard');
+  const viewProfil = document.getElementById('view-profil');
+
   navItems.forEach(item => {
     item.addEventListener('click', function(e) {
-      // Pindahkan status aktif (hijau) ke item yang dipencet
+      // Pindahkan status aktif (ungu) ke item yang dipencet
       navItems.forEach(i => i.classList.remove('active'));
       this.classList.add('active');
 
-      // Efek ripple hijau menyebar dari titik sentuh
+      // Ganti tampilan sesuai menu yang dipencet
+      const label = this.getAttribute('aria-label');
+      if (label === 'Profil') {
+        viewDashboard.hidden = true;
+        viewProfil.hidden = false;
+      } else {
+        viewDashboard.hidden = false;
+        viewProfil.hidden = true;
+      }
+
+      // Efek ripple ungu menyebar dari titik sentuh
       const rect = this.getBoundingClientRect();
       const ripple = document.createElement('span');
       const size = Math.max(rect.width, rect.height);
