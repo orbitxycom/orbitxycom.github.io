@@ -53,6 +53,13 @@
     display: flex;
     align-items: center;
     padding: 0 24px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .box-main:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 8px rgba(16,18,20,0.10);
   }
   .avatar-wrap {
     position: relative;
@@ -80,11 +87,11 @@
     position: absolute;
     right: -2px;
     bottom: -2px;
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: var(--accent);
-    border: 2.5px solid #ffffff;
+    border: 2px solid #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,8 +99,8 @@
     box-shadow: 0 2px 6px rgba(16,18,20,0.18);
   }
   .avatar-edit-btn svg {
-    width: 14px;
-    height: 14px;
+    width: 11px;
+    height: 11px;
     color: #ffffff;
   }
   .box-row {
@@ -106,6 +113,13 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .box-half:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(16,18,20,0.10);
   }
 
   /* Bottom nav bar — liquid glass */
