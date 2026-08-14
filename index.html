@@ -1,162 +1,308 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#08090c" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Explore the app</title>
+<link rel="icon" type="image/png" href="https://orbitxy.com/orbitxy.com.png">
+<link rel="apple-touch-icon" href="https://orbitxy.com/orbitxy.com.png">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000000;
+    --ink: #ffffff;
+    --muted: #a0a0a0;
+    --rose: #1a1420;
+    --rose-line: #a78bfa;
+    --border: #2a2a2a;
+    --primary: #ffffff;
+    --primary-text: #0a0a0a;
+  }
 
-    <!-- Primary SEO -->
-    <title>Sentinel X - Kelola &amp; Pantau Banyak Nomor WhatsApp</title>
-    <meta
-      name="description"
-      content="Sentinel X adalah dashboard untuk menyambungkan nomor WhatsApp milikmu sendiri, menjalankan pengiriman pesan ke penerima yang sudah setuju dihubungi, dan memantau status pengiriman secara realtime. Atur kecepatan kirim dan batas harian tiap nomor."
-    />
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="googlebot" content="noindex, nofollow" />
-    <meta
-      name="keywords"
-      content="sentinel x, kelola nomor whatsapp, dashboard multi nomor, manajemen nomor whatsapp, otomasi pengiriman pesan, pemantauan status pengiriman"
-    />
-    <link rel="canonical" href="https://sentinel-wa.com/" />
+  * { box-sizing: border-box; }
 
-    <!-- Open Graph (Facebook / WhatsApp / Telegram) -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Sentinel X" />
-    <meta property="og:locale" content="id_ID" />
-    <meta property="og:url" content="https://sentinel-wa.com/" />
-    <meta property="og:title" content="Sentinel X - Kelola &amp; Pantau Banyak Nomor WhatsApp" />
-    <meta
-      property="og:description"
-      content="Dashboard untuk menyambungkan dan mengelola banyak nomor WhatsApp milikmu, menjalankan pengiriman pesan ke penerima yang sudah setuju dihubungi, dan memantau status pengiriman secara realtime."
-    />
-    <!-- Absolute URL required — WhatsApp/Telegram/FB skip relative og:image paths. -->
-    <meta property="og:image" content="https://sentinel-wa.com/og.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content="Sentinel X, dashboard untuk mengelola dan memantau banyak nomor WhatsApp" />
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
 
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sentinel X - Kelola &amp; Pantau Banyak Nomor WhatsApp" />
-    <meta
-      name="twitter:description"
-      content="Kelola banyak nomor WhatsApp dari satu dashboard, jalankan pengiriman pesan ke penerima yang sudah setuju dihubungi, dan pantau status pengiriman realtime."
-    />
-    <meta name="twitter:image" content="https://sentinel-wa.com/og.png" />
-    <meta name="twitter:image:alt" content="Sentinel X, dashboard pengelolaan banyak nomor WhatsApp" />
+  body {
+    min-height: 100dvh;
+  }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap"
-      rel="stylesheet"
-    />
+  .screen {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    background: var(--bg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0 28px;
+  }
 
-    <!-- Structured data: brand entity + web app. No aggregateRating (no fabricated reviews).
-         FAQ answers MUST stay identical to the rendered FAQ copy in translations.js (landing.faq*A). -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "Organization",
-            "@id": "https://sentinel-wa.com/#organization",
-            "name": "Sentinel X",
-            "url": "https://sentinel-wa.com/",
-            "logo": "https://sentinel-wa.com/icon-512.png",
-            "image": "https://sentinel-wa.com/og.png",
-            "description": "Sentinel X adalah dashboard untuk menyambungkan dan mengelola banyak nomor WhatsApp milik pengguna, menjalankan pengiriman pesan ke penerima yang sudah setuju dihubungi, dan memantau status pengiriman secara realtime."
-          },
-          {
-            "@type": "WebSite",
-            "@id": "https://sentinel-wa.com/#website",
-            "url": "https://sentinel-wa.com/",
-            "name": "Sentinel X",
-            "inLanguage": "id-ID",
-            "publisher": { "@id": "https://sentinel-wa.com/#organization" }
-          },
-          {
-            "@type": "WebApplication",
-            "name": "Sentinel X",
-            "url": "https://sentinel-wa.com/",
-            "applicationCategory": "BusinessApplication",
-            "operatingSystem": "Web",
-            "inLanguage": "id-ID",
-            "publisher": { "@id": "https://sentinel-wa.com/#organization" },
-            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "IDR" },
-            "description": "Kelola banyak nomor WhatsApp dari satu dashboard: sambungkan nomor milikmu, atur kecepatan kirim dan batas harian, jalankan pengiriman pesan, lalu pantau status pengiriman secara realtime."
-          },
-          {
-            "@type": "FAQPage",
-            "@id": "https://sentinel-wa.com/#faq",
-            "inLanguage": "id-ID",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "Bagaimana cara menghasilkan uang di Sentinel X?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Kamu menyambungkan nomor WhatsApp milikmu sendiri, lalu sistem mengirim pesan ke daftar penerima. Kamu dibayar untuk tiap pesan yang benar-benar sampai ke penerima, bukan yang sekadar terkirim."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Berapa penghasilan yang bisa saya dapat?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Bayaran dihitung per pesan yang benar-benar sampai ke penerima, bukan sekadar terkirim. Besarnya bergantung pada berapa banyak pesanmu yang sampai, jadi tidak ada jumlah yang bisa kami jamin. Semua bisa kamu pantau realtime di dasbor."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Apakah aman untuk nomor WhatsApp saya?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Jujur saja: mengirim pesan dalam jumlah besar berisiko membuat nomor dibatasi atau diblokir WhatsApp, dan risiko itu ada padamu sebagai pemilik nomor. Kami sediakan pengaturan kecepatan dan batas harian untuk menekan risiko, tapi tidak ada jaminan nomor bebas dari pemblokiran. Kamu bisa menghentikan nomor kapan saja lewat dasbor."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Kapan dan bagaimana saya dibayar?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Saldo bertambah otomatis setiap ada pesan terkirim. Kamu bisa menariknya ke rekening bank kapan saja lewat menu Penarikan setelah mencapai minimum."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Berapa nomor yang bisa saya sambungkan?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Kamu bisa menyambungkan banyak nomor sekaligus dan memantau semuanya dari satu dasbor. Tiap nomor punya pengaturan kecepatan dan kuota sendiri."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Siapa saja yang boleh saya kirimi pesan?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Hanya penerima yang sudah setuju untuk dihubungi. Sentinel X ditujukan untuk menjangkau kontak yang memberi izin, bukan untuk spam ke nomor acak. Kamu wajib mematuhi Ketentuan WhatsApp dan aturan yang berlaku di wilayahmu. Akun yang dipakai untuk spam bisa kami hentikan."
-                }
-              }
-            ]
-          }
-        ]
-      }
-    </script>
-    <script type="module" crossorigin src="/assets/index-Cq_s6my3.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/react-Fq6ZWNUD.js">
-    <link rel="modulepreload" crossorigin href="/assets/datepicker-DNS1eGni.js">
-    <link rel="modulepreload" crossorigin href="/assets/socket-QyAzXPig.js">
-    <link rel="modulepreload" crossorigin href="/assets/icons-BSOqEovS.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-DLW-hLW0.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"ed0572ca0b3442db89ef6d1d5b1819ef","r":1}' crossorigin="anonymous"></script>
+  .rays {
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    width: 900px;
+    height: 900px;
+    transform: translateX(-50%);
+    background: repeating-conic-gradient(
+      from 0deg,
+      rgba(255,255,255,0.035) 0deg 1.2deg,
+      transparent 1.2deg 6deg
+    );
+    -webkit-mask-image: radial-gradient(circle at center, black 0%, black 40%, transparent 72%);
+    mask-image: radial-gradient(circle at center, black 0%, black 40%, transparent 72%);
+    pointer-events: none;
+  }
+
+  /* ---- Carousel kartu (menggantikan ilustrasi bintang) ---- */
+  .carousel-stage {
+    position: relative;
+    margin-top: 10vh;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+    cursor: grab;
+  }
+  .carousel-stage.dragging { cursor: grabbing; }
+
+  .track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 130px;
+    height: 170px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 16px 14px;
+    box-shadow: 0 16px 32px rgba(0,0,0,0.45);
+    will-change: transform, opacity;
+  }
+
+  .card .icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 12px;
+  }
+
+  .card h3 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #1a2233;
+    letter-spacing: -0.02em;
+    font-family: 'Baloo 2', sans-serif;
+  }
+
+  .card p {
+    margin: 0;
+    font-size: 10.5px;
+    line-height: 1.3;
+    color: #6b7280;
+  }
+
+  /* ---- end carousel ---- */
+
+  .content {
+    position: relative;
+    text-align: center;
+    margin-top: 28px;
+  }
+
+  h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .actions {
+    position: relative;
+    margin-top: auto;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    height: 54px;
+    border-radius: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn-primary:active, .btn-secondary:active { transform: scale(0.98); }
+
+  .btn-primary {
+    background: var(--primary);
+    color: var(--primary-text);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+  }
+
+  .btn-primary:focus-visible, .btn-secondary:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+  <div class="screen">
+    <div class="rays"></div>
+
+    <div class="carousel-stage" id="stage">
+      <div class="track" id="track"></div>
+    </div>
+
+    <div class="content">
+      <h1>Explore the app</h1>
+      <p class="subtitle">Your trusted marketplace for buying and selling accounts.</p>
+    </div>
+
+    <div class="actions">
+      <a class="btn-primary" href="/login/">Sign in</a>
+      <a class="btn-secondary" href="/create-account/">Create account</a>
+    </div>
+  </div>
+
+<script>
+  const cards = [
+    { icon: '🏆', bg: 'linear-gradient(135deg,#f9a825,#f57f17)', title: 'Task Master', desc: 'The ultimate game of productivity' },
+    { icon: '✕', bg: 'linear-gradient(135deg,#34d399,#059669)', title: 'Word Guess', desc: 'Competitive wordle style game' },
+    { icon: '☰', bg: 'linear-gradient(135deg,#fbbf24,#f59e0b)', title: 'Notes', desc: 'Easily jot down notes, ideas' },
+    { icon: '♪', bg: 'linear-gradient(135deg,#818cf8,#6366f1)', title: 'Tune Flow', desc: 'Discover your next favorite song' },
+    { icon: '◆', bg: 'linear-gradient(135deg,#f472b6,#ec4899)', title: 'Focus Timer', desc: 'Stay sharp with timed sessions' }
+  ];
+
+  const track = document.getElementById('track');
+  const stage = document.getElementById('stage');
+
+  cards.forEach((c) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="icon" style="background:${c.bg}">${c.icon}</div>
+      <h3>${c.title}</h3>
+      <p>${c.desc}</p>
+    `;
+    track.appendChild(card);
+  });
+
+  const cardEls = Array.from(track.children);
+
+  let current = 1;
+  let dragOffset = 0;
+  let startX = 0;
+  let dragging = false;
+  const SPACING = 190;
+
+  function render(animated) {
+    cardEls.forEach((el, i) => {
+      const diff = i - current;
+      const x = diff * SPACING + dragOffset;
+      const dist = Math.abs(x);
+      const rotate = Math.max(-16, Math.min(16, x / 14));
+      const scale = Math.max(0.72, 1 - dist / 700);
+      const opacity = Math.max(0, 1 - dist / 380);
+      const z = 100 - Math.round(dist);
+
+      el.style.transition = animated
+        ? 'transform 0.45s cubic-bezier(.22,1,.36,1), opacity 0.45s ease'
+        : 'none';
+      el.style.transform =
+        `translate(-50%, -50%) translateX(${x}px) rotate(${rotate}deg) scale(${scale})`;
+      el.style.opacity = opacity;
+      el.style.zIndex = z;
+    });
+  }
+
+  function onStart(x) {
+    dragging = true;
+    startX = x;
+    stage.classList.add('dragging');
+  }
+
+  function onMove(x) {
+    if (!dragging) return;
+    dragOffset = x - startX;
+    render(false);
+  }
+
+  function onEnd() {
+    if (!dragging) return;
+    dragging = false;
+    stage.classList.remove('dragging');
+
+    const threshold = SPACING / 4;
+    if (dragOffset < -threshold && current < cardEls.length - 1) {
+      current++;
+    } else if (dragOffset > threshold && current > 0) {
+      current--;
+    }
+    dragOffset = 0;
+    render(true);
+  }
+
+  stage.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    onStart(e.clientX);
+  });
+  window.addEventListener('pointermove', e => onMove(e.clientX));
+  window.addEventListener('pointerup', onEnd);
+  window.addEventListener('pointercancel', onEnd);
+
+  render(false);
+</script>
 </body>
 </html>
