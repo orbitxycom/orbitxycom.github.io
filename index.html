@@ -3,479 +3,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>Pembayaran QR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #ffffff;
-    --surface: #f4f5f7;
-    --surface-2: #eceef1;
-    --accent: #8b5cf6;
-    --accent-dim: rgba(139,92,246,0.12);
-    --text: #16181c;
-    --text-dim: #8a919a;
-    --border: #e4e6e9;
+    --page-bg:#F3F4F6;
+    --card-bg:#FFFFFF;
+    --border:#E5E7EB;
+    --ink:#1F2937;
+    --ink-soft:#6B7280;
+    --blue:#3B82F6;
+    --blue-dark:#2563EB;
+    --amber:#D97706;
+    --amber-bg:#FEF3C7;
+    --red:#DC2626;
+    --red-bg:#FEE2E2;
+    --green:#16A34A;
   }
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:32px 16px 60px;
   }
-  body {
-    background: var(--bg);
-  }
-  .app {
-    max-width: 480px;
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Layout kotak-kotak kosong */
-  .content {
-    padding: 20px;
-  }
-  .view[hidden] {
-    display: none;
-  }
-  .box-main {
-    width: 100%;
-    aspect-ratio: 16 / 5;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .box-main.box-profile {
-    aspect-ratio: unset;
-    padding: 12px 20px;
-  }
-  .box-main:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 8px rgba(16,18,20,0.10);
-  }
-  .avatar-wrap {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    flex-shrink: 0;
-  }
-  .avatar-circle {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-dim);
-    overflow: hidden;
-  }
-  .avatar-circle svg {
-    width: 36px;
-    height: 36px;
-  }
-  .avatar-edit-btn {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--accent);
-    border: 2.5px solid #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(16,18,20,0.18);
-  }
-  .avatar-edit-btn svg {
-    width: 13px;
-    height: 13px;
-    color: #ffffff;
-  }
-  .profile-info {
-    margin-left: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
-  }
-  .profile-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text);
-  }
-  .profile-id {
-    font-size: 12.5px;
-    font-weight: 400;
-    color: var(--text-dim);
-    letter-spacing: 0.2px;
+  .page{width:100%;max-width:420px;}
+  .card{
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:0;
+    padding:28px 24px 24px;
+    text-align:center;
   }
 
-  /* List info: Phone, Email, Address */
-  .info-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 16px;
+  /* Merchant header — placeholder, edit merchantName in the script below */
+  .merchant{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    margin-bottom:18px;
   }
-  .info-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    -webkit-tap-highlight-color: transparent;
+  .avatar{
+    width:52px;height:52px;
+    border-radius:0;
+    background:var(--page-bg);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-soft);
   }
-  .info-row:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 8px rgba(16,18,20,0.10);
-  }
-  .info-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--surface-2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-dim);
-    flex-shrink: 0;
-  }
-  .info-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-  .info-text {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
-    flex: 1;
-  }
-  .info-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-  .info-value {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .info-chevron {
-    width: 18px;
-    height: 18px;
-    color: var(--text-dim);
-    flex-shrink: 0;
-  }
-  .box-row {
-    display: flex;
-    gap: 16px;
-  }
-  .box-half {
-    flex: 1;
-    aspect-ratio: 1 / 1;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .box-half:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 8px rgba(16,18,20,0.10);
+  .merchant-name{
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink-soft);
   }
 
-  /* Bottom nav bar — liquid glass */
-  .navbar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    margin: 16px;
-    margin-top: auto;
-    padding: 10px;
-    border-radius: 28px;
-    overflow: hidden;
+  /* QR */
+  .qr-frame{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:0;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:18px;
+  }
+  #qrCanvas{line-height:0;}
+  #qrCanvas img, #qrCanvas canvas{display:block;}
 
-    background: linear-gradient(
-      165deg,
-      rgba(255,255,255,0.95),
-      rgba(255,255,255,0.55) 45%,
-      rgba(255,255,255,0.75) 100%
-    );
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
-    backdrop-filter: blur(24px) saturate(200%);
-    border: 1.5px solid rgba(255,255,255,0.9);
-    box-shadow:
-      0 20px 40px rgba(16,18,20,0.16),
-      0 6px 14px rgba(16,18,20,0.08),
-      inset 0 1.5px 0 rgba(255,255,255,1),
-      inset 0 -1.5px 6px rgba(16,18,20,0.06),
-      inset 2px 0 6px rgba(255,255,255,0.6),
-      inset -2px 0 6px rgba(16,18,20,0.04);
+  .instruction{
+    font-size:14.5px;
+    color:var(--ink);
+    line-height:1.5;
+    margin:0 0 18px;
   }
-  /* Highlight melengkung di bagian atas kaca, seperti pantulan cahaya */
-  .navbar::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 8%;
-    width: 84%;
-    height: 40%;
-    border-radius: 50% 50% 60% 60% / 100% 100% 30% 30%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0));
-    pointer-events: none;
+
+  .timer-row{
+    font-size:14px;
+    color:var(--ink);
+    margin-bottom:20px;
   }
-  /* Bayangan lembut menempel di bawah navbar untuk kesan mengambang */
-  .navbar::after {
-    content: "";
-    position: absolute;
-    left: 10%;
-    right: 10%;
-    bottom: -14px;
-    height: 14px;
-    background: radial-gradient(ellipse at center, rgba(16,18,20,0.18), transparent 70%);
-    filter: blur(4px);
-    pointer-events: none;
+  .timer-value{
+    display:inline-block;
+    background:var(--red-bg);
+    color:var(--red);
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:14px;
+    padding:3px 10px;
+    border-radius:0;
+    margin-left:4px;
   }
-  .nav-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 48px;
-    border-radius: 20px;
-    color: rgba(22,24,28,0.45);
-    background: transparent;
-    cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-    border: none;
-    position: relative;
-    z-index: 1;
+
+  /* Invoice table — all values start empty/placeholder */
+  .invoice-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:22px;
+    text-align:left;
   }
-  .nav-item:hover {
-    color: var(--text);
-    background: rgba(16,18,20,0.05);
+  .invoice-table td{
+    padding:12px 14px;
+    border:1px solid var(--border);
+    font-size:14.5px;
+    vertical-align:top;
   }
-  .nav-item.active {
-    background: rgba(139,92,246,0.16);
-    color: var(--accent);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
-    overflow: hidden;
+  .invoice-table td:first-child{
+    width:40%;
+    color:var(--ink);
   }
-  .nav-item {
-    -webkit-tap-highlight-color: transparent;
+  .invoice-table td:last-child{
+    color:var(--ink);
+    font-family:'IBM Plex Mono',monospace;
   }
-  .nav-item:active {
-    transform: scale(0.88);
+  .status-badge{
+    display:inline-block;
+    background:var(--amber-bg);
+    color:var(--amber);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    padding:3px 10px;
+    border-radius:0;
   }
-  .nav-item.active:active {
-    animation: press-pop 0.35s ease-out;
+  .status-badge.paid{background:#DCFCE7;color:var(--green);}
+
+  .paid-btn{
+    width:100%;
+    padding:14px 16px;
+    border:none;
+    border-radius:0;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:background .15s ease;
   }
-  @keyframes press-pop {
-    0% { transform: scale(0.85); }
-    60% { transform: scale(1.12); }
-    100% { transform: scale(1); }
+  .paid-btn:hover{background:var(--blue-dark);}
+  .paid-btn:disabled{opacity:0.7;cursor:not-allowed;}
+
+  .hourglass-icon{
+    display:inline-block;
+    animation:hourglass-wobble 1.6s ease-in-out infinite;
+    transform-origin:50% 85%;
   }
-  /* Efek ripple hijau saat ditekan */
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(139,92,246,0.45);
-    transform: scale(0);
-    animation: ripple-out 0.6s ease-out;
-    pointer-events: none;
+  @keyframes hourglass-wobble{
+    0%, 100%{transform:rotate(0deg);}
+    25%{transform:rotate(-12deg);}
+    75%{transform:rotate(12deg);}
   }
-  @keyframes ripple-out {
-    to {
-      transform: scale(3);
-      opacity: 0;
-    }
-  }
-  .nav-item svg {
-    width: 22px;
-    height: 22px;
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+    .hourglass-icon{animation:none;}
   }
 </style>
 </head>
 <body>
+<div class="page">
+  <div class="card">
 
-<div class="app">
-  <div class="content">
+    <div class="qr-frame"><div id="qrCanvas"></div></div>
 
-    <!-- Tampilan Dashboard (default) -->
-    <div class="view" id="view-dashboard">
-      <div class="box-main"></div>
-      <div class="box-row">
-        <div class="box-half"></div>
-        <div class="box-half"></div>
-      </div>
-    </div>
+    <p class="instruction">Scan QR code ini menggunakan e-wallet atau mobile banking Anda</p>
 
-    <!-- Tampilan Profil (muncul saat ikon Profil dipencet) -->
-    <div class="view" id="view-profil" hidden>
-      <div class="box-main box-profile" style="margin-bottom:0;">
-        <div class="avatar-wrap">
-          <div class="avatar-circle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="4"></circle>
-              <path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path>
-            </svg>
-          </div>
-          <button class="avatar-edit-btn" aria-label="Ganti foto profil">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 20h9"></path>
-              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="profile-info">
-          <div class="profile-name">Nama</div>
-          <div class="profile-id">ID&nbsp;: -------</div>
-        </div>
-      </div>
+    <div class="timer-row"><span class="hourglass-icon">⏳</span> Sisa waktu:<span class="timer-value" id="timerValue">--:--</span></div>
 
-      <div class="info-list">
-        <div class="info-row">
-          <div class="info-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
-            </svg>
-          </div>
-          <div class="info-text">
-            <div class="info-label">Phone</div>
-            <div class="info-value">-------</div>
-          </div>
-          <svg class="info-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18l6-6-6-6"></path>
-          </svg>
-        </div>
+    <table class="invoice-table">
+      <tr><td>Invoice ID</td><td id="invId">-</td></tr>
+      <tr><td>Status</td><td><span class="status-badge" id="invStatus">🕐 Menunggu Pembayaran</span></td></tr>
+      <tr><td>Nominal</td><td id="invNominal">-</td></tr>
+      <tr><td>Fee</td><td id="invFee">-</td></tr>
+      <tr><td>Total</td><td id="invTotal">-</td></tr>
+      <tr><td>Tanggal</td><td id="invDate">-</td></tr>
+    </table>
 
-        <div class="info-row">
-          <div class="info-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-            </svg>
-          </div>
-          <div class="info-text">
-            <div class="info-label">Email</div>
-            <div class="info-value">-------</div>
-          </div>
-          <svg class="info-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18l6-6-6-6"></path>
-          </svg>
-        </div>
-      </div>
-    </div>
-
+    <button type="button" class="paid-btn" id="paidBtn">Saya Sudah Bayar</button>
   </div>
 
-  <nav class="navbar">
-    <button class="nav-item active" aria-label="Dashboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
-        <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
-        <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
-        <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
-      </svg>
-    </button>
-    <button class="nav-item" aria-label="Belajar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 10 12 5 2 10l10 5 10-5Z"></path>
-        <path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"></path>
-      </svg>
-    </button>
-    <button class="nav-item" aria-label="Chat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"></path>
-      </svg>
-    </button>
-    <button class="nav-item" aria-label="Komunitas">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-        <circle cx="9" cy="7" r="4"></circle>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-      </svg>
-    </button>
-    <button class="nav-item" aria-label="Dompet">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-        <circle cx="12" cy="12" r="2"></circle>
-      </svg>
-    </button>
-    <button class="nav-item" aria-label="Profil">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="8" r="4"></circle>
-        <path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path>
-      </svg>
-    </button>
-  </nav>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-  const navItems = document.querySelectorAll('.nav-item');
-  const viewDashboard = document.getElementById('view-dashboard');
-  const viewProfil = document.getElementById('view-profil');
+document.addEventListener('DOMContentLoaded', function(){
 
-  navItems.forEach(item => {
-    item.addEventListener('click', function(e) {
-      // Pindahkan status aktif (ungu) ke item yang dipencet
-      navItems.forEach(i => i.classList.remove('active'));
-      this.classList.add('active');
+  /* ------------------------------------------------------------
+     DATA INVOICE — masih kosong, isi di sini kalau sudah ada data
+     ------------------------------------------------------------ */
+  const invoice = {
+    id: '',                  // Invoice ID
+    status: 'pending',       // 'pending' | 'paid'
+    nominal: '',             // contoh: 10000
+    fee: '',                 // contoh: 169
+    total: '',                // contoh: 10169
+    date: '',                // contoh: '14 Agu 2026, 21:39'
+    qrContent: '',           // string/payload yang akan di-encode ke QR
+    expiresInSeconds: null   // contoh: 1800 (30 menit). null = timer tidak jalan dulu
+  };
+  /* ------------------------------------------------------------ */
 
-      // Ganti tampilan sesuai menu yang dipencet
-      const label = this.getAttribute('aria-label');
-      if (label === 'Profil') {
-        viewDashboard.hidden = true;
-        viewProfil.hidden = false;
+  const fmtRp = v => v === '' || v === null || v === undefined ? '-' : 'Rp ' + Number(v).toLocaleString('id-ID');
+
+  document.getElementById('invId').textContent = invoice.id || '-';
+  document.getElementById('invNominal').textContent = fmtRp(invoice.nominal);
+  document.getElementById('invFee').textContent = fmtRp(invoice.fee);
+  document.getElementById('invTotal').textContent = fmtRp(invoice.total);
+  document.getElementById('invDate').textContent = invoice.date || '-';
+
+  const statusEl = document.getElementById('invStatus');
+  if(invoice.status === 'paid'){
+    statusEl.textContent = '✓ Sudah Dibayar';
+    statusEl.classList.add('paid');
+  } else {
+    statusEl.textContent = '🕐 Menunggu Pembayaran';
+  }
+
+  // QR — render kalau ada isinya, kalau kosong tampilkan placeholder kotak
+  const qrEl = document.getElementById('qrCanvas');
+  function renderQr(text){
+    qrEl.innerHTML = '';
+    try{
+      if(typeof QRCode === 'function' && text){
+        new QRCode(qrEl, { text: text, width: 180, height: 180, colorDark:'#1F2937', colorLight:'#ffffff' });
       } else {
-        viewDashboard.hidden = false;
-        viewProfil.hidden = true;
+        qrEl.innerHTML = '<div style="width:180px;height:180px;border:1.5px dashed #D1D5DB;border-radius:0;display:flex;align-items:center;justify-content:center;text-align:center;font-family:IBM Plex Mono,monospace;font-size:11px;color:#9CA3AF;padding:10px;">Menunggu data QR</div>';
       }
+    } catch(err){
+      qrEl.innerHTML = '<div style="width:180px;height:180px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:IBM Plex Mono,monospace;font-size:11px;color:#9CA3AF;padding:10px;">QR tidak dapat dimuat</div>';
+    }
+  }
+  renderQr(invoice.qrContent);
 
-      // Efek ripple ungu menyebar dari titik sentuh
-      const rect = this.getBoundingClientRect();
-      const ripple = document.createElement('span');
-      const size = Math.max(rect.width, rect.height);
-      ripple.className = 'ripple';
-      ripple.style.width = ripple.style.height = size + 'px';
-      const x = (e.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
-      const y = (e.clientY || rect.top + rect.height / 2) - rect.top - size / 2;
-      ripple.style.left = x + 'px';
-      ripple.style.top = y + 'px';
-      this.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 600);
-    });
+  // Timer — hanya jalan kalau expiresInSeconds diisi
+  const timerEl = document.getElementById('timerValue');
+  if(invoice.expiresInSeconds){
+    let seconds = invoice.expiresInSeconds;
+    const tick = ()=>{
+      const h = Math.floor(seconds/3600).toString().padStart(2,'0');
+      const m = Math.floor((seconds%3600)/60).toString().padStart(2,'0');
+      const s = Math.floor(seconds%60).toString().padStart(2,'0');
+      timerEl.textContent = (invoice.expiresInSeconds >= 3600 ? h+':' : '') + m + ':' + s;
+      if(seconds <= 0){
+        clearInterval(interval);
+        timerEl.textContent = 'Kadaluarsa';
+      }
+      seconds--;
+    };
+    tick();
+    const interval = setInterval(tick, 1000);
+  }
+
+  // Tombol "Saya Sudah Bayar" — simulasi cek status, sambungkan ke API kalau sudah ada
+  document.getElementById('paidBtn').addEventListener('click', function(){
+    const btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Memeriksa…';
+    setTimeout(()=>{
+      btn.disabled = false;
+      btn.textContent = 'Saya Sudah Bayar';
+      alert('Belum ada data status pembayaran untuk dicek.');
+    }, 900);
   });
-</script>
 
+});
+</script>
 </body>
 </html>
