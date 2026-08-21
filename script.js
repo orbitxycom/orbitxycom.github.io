@@ -1,342 +1,40 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+// Countdown timer for the claim button (starts at 7:59:14, matches screenshot)
+(function () {
+  let totalSeconds = 7 * 3600 + 59 * 60 + 14;
+  const timerEl = document.querySelector('.timer-text');
 
-html, body {
-  background: #0d0b10;
-  color: #fff;
-  font-family: "Helvetica Neue", Arial, "Segoe UI", sans-serif;
-  width: 100%;
-  min-height: 100%;
-  overflow-x: hidden;
-}
+  function format(sec) {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
 
-.app {
-  width: 100%;
-  max-width: 480px;
-  min-height: 100vh;
-  margin: 0 auto;
-  background: #0d0b10;
-  position: relative;
-  padding: clamp(14.81px, 4.63vw, 22.22px) clamp(11.11px, 3.47vw, 16.67px) clamp(10.37px, 3.24vw, 15.56px);
-  display: flex;
-  flex-direction: column;
-}
+  function tick() {
+    if (totalSeconds <= 0) {
+      totalSeconds = 8 * 3600; // reset loop
+    } else {
+      totalSeconds--;
+    }
+    if (timerEl) timerEl.textContent = format(totalSeconds);
+  }
 
-/* ---------- HEADER ---------- */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: clamp(5.19px, 1.62vw, 7.78px);
-}
+  setInterval(tick, 1000);
 
-.profile-pill {
-  display: flex;
-  align-items: center;
-  gap: clamp(5.19px, 1.62vw, 7.78px);
-  background: #1c1920;
-  border: none;
-  border-radius: clamp(12.59px, 3.94vw, 18.89px);
-  padding: clamp(4.44px, 1.39vw, 6.67px) clamp(8.15px, 2.55vw, 12.22px) clamp(4.44px, 1.39vw, 6.67px) clamp(4.44px, 1.39vw, 6.67px);
-  color: #fff;
-  cursor: pointer;
-}
+  // Simple claim button feedback
+  const claimBtn = document.querySelector('.claim-btn');
+  if (claimBtn) {
+    claimBtn.addEventListener('click', () => {
+      claimBtn.style.opacity = '0.7';
+      setTimeout(() => (claimBtn.style.opacity = '1'), 150);
+    });
+  }
 
-.avatar {
-  width: clamp(17.78px, 5.56vw, 26.67px);
-  height: clamp(17.78px, 5.56vw, 26.67px);
-  border-radius: 50%;
-  overflow: hidden;
-  background: #3a2a1a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.avatar svg { width: 100%; height: 100%; }
-
-.username {
-  font-size: clamp(9.26px, 2.89vw, 13.89px);
-  font-weight: 600;
-  letter-spacing: clamp(0.07px, 0.02vw, 0.11px);
-}
-
-.chevron {
-  color: #8a8790;
-  font-size: clamp(8.89px, 2.78vw, 13.33px);
-  font-weight: 400;
-  line-height: 1;
-}
-.chevron.small { font-size: clamp(6.3px, 1.97vw, 9.44px); }
-
-.header-icons {
-  display: flex;
-  align-items: center;
-  gap: clamp(4.44px, 1.39vw, 6.67px);
-}
-
-.icon-btn {
-  width: clamp(19.26px, 6.02vw, 28.89px);
-  height: clamp(19.26px, 6.02vw, 28.89px);
-  border-radius: 50%;
-  background: #1c1920;
-  border: none;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: clamp(6.67px, 2.08vw, 10px);
-  font-weight: 500;
-  cursor: pointer;
-}
-
-/* ---------- DAILY LIMIT CARD ---------- */
-.limit-card {
-  margin-top: clamp(11.11px, 3.47vw, 16.67px);
-  background: #17141a;
-  border-radius: clamp(11.11px, 3.47vw, 16.67px);
-  padding: clamp(11.11px, 3.47vw, 16.67px) clamp(11.85px, 3.7vw, 17.78px) clamp(16.3px, 5.09vw, 24.44px);
-  display: flex;
-  flex-direction: column;
-}
-
-.limit-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.limit-left, .limit-right {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(2.96px, 0.93vw, 4.44px);
-}
-.limit-right { align-items: flex-end; }
-
-.limit-label, .balance-label {
-  font-size: clamp(6.3px, 1.97vw, 9.44px);
-  color: #a8a4ae;
-  display: flex;
-  align-items: center;
-  gap: clamp(1.48px, 0.46vw, 2.22px);
-}
-
-.limit-value, .balance-value {
-  display: flex;
-  align-items: center;
-  gap: clamp(2.96px, 0.93vw, 4.44px);
-}
-
-.limit-number {
-  font-size: clamp(11.11px, 3.47vw, 16.67px);
-  font-weight: 700;
-}
-
-.balance-number {
-  font-size: clamp(11.11px, 3.47vw, 16.67px);
-  font-weight: 700;
-  color: #f5b400;
-}
-
-.bolt-icon, .coin-icon {
-  display: flex;
-  align-items: center;
-}
-
-/* ---------- LEVEL RING ---------- */
-.level-wrap {
-  position: relative;
-  width: clamp(111.11px, 34.72vw, 166.67px);
-  height: clamp(111.11px, 34.72vw, 166.67px);
-  margin: clamp(9.63px, 3.01vw, 14.44px) auto 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.level-ring { width: 100%; height: 100%; }
-.ring-progress { transition: stroke-dashoffset 0.3s; }
-
-.level-center {
-  position: absolute;
-  top: 44%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.lvl-label {
-  font-size: clamp(7.78px, 2.43vw, 11.67px);
-  color: #a8a4ae;
-  font-weight: 500;
-}
-
-.lvl-number {
-  font-size: clamp(18.52px, 5.79vw, 27.78px);
-  font-weight: 800;
-  line-height: 1;
-}
-
-.level-progress-btn {
-  position: absolute;
-  bottom: clamp(2.22px, 0.69vw, 3.33px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: #a855f7;
-  border: none;
-  color: #fff;
-  font-size: clamp(6.3px, 1.97vw, 9.44px);
-  font-weight: 600;
-  border-radius: clamp(8.15px, 2.55vw, 12.22px);
-  padding: clamp(2.96px, 0.93vw, 4.44px) clamp(7.41px, 2.31vw, 11.11px);
-  display: flex;
-  align-items: center;
-  gap: clamp(0.74px, 0.23vw, 1.11px);
-  cursor: pointer;
-}
-.level-progress-btn .dim { opacity: 0.65; }
-
-/* ---------- CHARACTERS ---------- */
-.characters {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  margin-top: clamp(7.41px, 2.31vw, 11.11px);
-}
-.cat-char { width: clamp(96.3px, 30.09vw, 144.44px); height: clamp(106.67px, 33.33vw, 160px); margin-right: -clamp(9.63px, 3.01vw, 14.44px); z-index: 1; }
-.penguin-char { width: clamp(80px, 25vw, 120px); height: clamp(100.74px, 31.48vw, 151.11px); z-index: 0; }
-
-/* ---------- CLAIM BUTTON ---------- */
-.claim-btn {
-  margin-top: clamp(11.11px, 3.47vw, 16.67px);
-  background: #f5b400;
-  border: none;
-  border-radius: clamp(9.63px, 3.01vw, 14.44px);
-  height: clamp(43.7px, 13.66vw, 65.56px);
-  display: flex;
-  align-items: center;
-  padding: 0 clamp(4.44px, 1.39vw, 6.67px);
-  position: relative;
-  cursor: pointer;
-}
-
-.claim-timer {
-  background: rgba(0,0,0,0.18);
-  border-radius: clamp(7.41px, 2.31vw, 11.11px);
-  height: clamp(34.07px, 10.65vw, 51.11px);
-  padding: 0 clamp(7.41px, 2.31vw, 11.11px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(1.48px, 0.46vw, 2.22px);
-  min-width: clamp(43.7px, 13.66vw, 65.56px);
-}
-
-.timer-text {
-  font-size: clamp(6.3px, 1.97vw, 9.44px);
-  font-weight: 700;
-  color: #4a3800;
-}
-
-.claim-center {
-  flex: 1;
-  text-align: center;
-  font-size: clamp(10.37px, 3.24vw, 15.56px);
-  font-weight: 700;
-  color: #1a1400;
-  letter-spacing: clamp(0.11px, 0.04vw, 0.17px);
-}
-.claim-center b { font-weight: 800; }
-
-/* ---------- PIXFI BANNER ---------- */
-.pixfi-banner {
-  margin-top: clamp(9.63px, 3.01vw, 14.44px);
-  background: #7b4fd6;
-  border-radius: clamp(10.37px, 3.24vw, 15.56px);
-  padding: clamp(12.59px, 3.94vw, 18.89px) clamp(11.11px, 3.47vw, 16.67px);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  min-height: clamp(81.48px, 25.46vw, 122.22px);
-}
-
-.banner-pattern {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 85% 15%, rgba(255,255,255,0.10) 0 40%, transparent 41%),
-    repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0 clamp(3.7px, 1.16vw, 5.56px), transparent clamp(3.7px, 1.16vw, 5.56px) clamp(7.41px, 2.31vw, 11.11px));
-  opacity: 0.6;
-}
-
-.banner-text {
-  position: relative;
-  z-index: 1;
-  align-self: flex-start;
-}
-
-.banner-title {
-  font-size: clamp(13.33px, 4.17vw, 20px);
-  font-weight: 800;
-  line-height: 1.15;
-}
-
-.banner-sub {
-  margin-top: clamp(17.04px, 5.32vw, 25.56px);
-  font-size: clamp(5.93px, 1.85vw, 8.89px);
-  font-weight: 600;
-  letter-spacing: clamp(0.19px, 0.06vw, 0.28px);
-  color: rgba(255,255,255,0.85);
-}
-
-.banner-claim {
-  position: relative;
-  z-index: 1;
-  background: #f5b400;
-  border: none;
-  border-radius: clamp(7.41px, 2.31vw, 11.11px);
-  padding: clamp(7.41px, 2.31vw, 11.11px) clamp(13.33px, 4.17vw, 20px);
-  font-size: clamp(7.04px, 2.2vw, 10.56px);
-  font-weight: 700;
-  color: #1a1400;
-  cursor: pointer;
-}
-
-/* ---------- BOTTOM NAV ---------- */
-.tab-indicator {
-  flex: 1 1 auto;
-  min-height: clamp(22.22px, 6.94vw, 33.33px);
-}
-
-.bottom-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-shrink: 0;
-  border-top: 1px solid #1e1b23;
-  padding-top: clamp(6.67px, 2.08vw, 10px);
-  padding-bottom: max(clamp(6.67px, 2.08vw, 10px), env(safe-area-inset-bottom));
-  margin-top: clamp(3.7px, 1.16vw, 5.56px);
-}
-
-.nav-item {
-  background: none;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(2.22px, 0.69vw, 3.33px);
-  color: #8a8790;
-  font-size: clamp(5.56px, 1.74vw, 8.33px);
-  font-weight: 500;
-  cursor: pointer;
-  flex: 1;
-}
-
-.nav-item.active { color: #a855f7; }
-.nav-item.active span { color: #a855f7; }
-  
+  const bannerClaim = document.querySelector('.banner-claim');
+  if (bannerClaim) {
+    bannerClaim.addEventListener('click', () => {
+      bannerClaim.style.opacity = '0.7';
+      setTimeout(() => (bannerClaim.style.opacity = '1'), 150);
+    });
+  }
+})();
