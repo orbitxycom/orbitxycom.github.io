@@ -2,46 +2,71 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Loading</title>
 <style>
+  * {
+    box-sizing: border-box;
+  }
+
   html, body {
+    width: 100%;
+    min-height: 100%;
     margin: 0;
     padding: 0;
-    height: 100%;
+  }
+
+  body {
+    height: 100dvh;
+    min-height: 100dvh;
     background: #000;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
   }
 
+  .screen {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+  }
+
   .container {
-    width: 92%;
-    max-width: 1000px;
+    width: 100%;
+    max-width: none;
     text-align: center;
   }
 
   .bar-track {
     position: relative;
     width: 100%;
-    height: 10px;
+    height: 6px;
     border-radius: 999px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.18);
-    background-image: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.18) 0%,
-      rgba(255, 255, 255, 0.95) 40%,
-      rgba(255, 255, 255, 0.95) 60%,
-      rgba(255, 255, 255, 0.18) 100%
-    );
-    background-size: 280% 100%;
-    animation: loading 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 60%;
+    border-radius: 999px;
+    background: #e5e5e5;
+    animation: loading 1.7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    will-change: transform;
   }
 
   @keyframes loading {
-    0%   { background-position: 190% 0; }
-    100% { background-position: -90% 0; }
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(220%); }
   }
 
   .label {
@@ -53,9 +78,13 @@
 </style>
 </head>
 <body>
-  <div class="container">
-    <div class="bar-track"></div>
-    <div class="label">Memuat...</div>
+  <div class="screen">
+    <div class="container">
+      <div class="bar-track">
+        <div class="bar-fill"></div>
+      </div>
+      <div class="label">Memuat...</div>
+    </div>
   </div>
 </body>
 </html>
