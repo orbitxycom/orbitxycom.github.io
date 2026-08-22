@@ -2,222 +2,61 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Explore the app</title>
-<link rel="icon" type="image/png" href="https://orbitxy.com/orbitxy.com.png">
-<link rel="apple-touch-icon" href="https://orbitxy.com/orbitxy.com.png">
-<meta name="theme-color" content="#000000">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>Loading</title>
 <style>
-  :root {
-    --bg: #000000;
-    --ink: #ffffff;
-    --muted: #a0a0a0;
-    --rose: #1a1420;
-    --rose-line: #a78bfa;
-    --border: #2a2a2a;
-    --primary: #ffffff;
-    --primary-text: #0a0a0a;
-  }
-
-  * { box-sizing: border-box; }
-
   html, body {
     margin: 0;
     padding: 0;
-    background: var(--bg);
-    font-family: 'Inter', sans-serif;
-    -webkit-font-smoothing: antialiased;
+    height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
   }
 
-  body {
-    min-height: 100dvh;
+  .container {
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
   }
 
-  .screen {
+  .bar-track {
     position: relative;
     width: 100%;
-    max-width: 430px;
-    min-height: 100dvh;
-    margin: 0 auto;
-    background: var(--bg);
+    height: 5px;
+    border-radius: 999px;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 0 28px;
-  }
-
-  .rays {
-    position: absolute;
-    top: -10%;
-    left: 50%;
-    width: 900px;
-    height: 900px;
-    transform: translateX(-50%);
-    background: repeating-conic-gradient(
-      from 0deg,
-      rgba(255,255,255,0.035) 0deg 1.2deg,
-      transparent 1.2deg 6deg
+    background: rgba(255, 255, 255, 0.18);
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.55) 50%,
+      rgba(255, 255, 255, 0.18) 100%
     );
-    -webkit-mask-image: radial-gradient(circle at center, black 0%, black 40%, transparent 72%);
-    mask-image: radial-gradient(circle at center, black 0%, black 40%, transparent 72%);
-    pointer-events: none;
+    background-size: 200% 100%;
+    animation: loading 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
 
-  .sparkle-wrap {
-    position: relative;
-    margin: 15vh auto 0;
-    width: 170px;
-    height: 170px;
+  @keyframes loading {
+    0%   { background-position: 150% 0; }
+    100% { background-position: -50% 0; }
   }
 
-  .sparkle-wrap svg { width: 100%; height: 100%; overflow: visible; }
-
-  .content {
-    position: relative;
-    text-align: center;
-    margin-top: 40px;
-  }
-
-  h1 {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 28px;
-    color: var(--ink);
-    margin: 0 0 12px;
-  }
-
-  .subtitle {
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--muted);
-    max-width: 280px;
-    margin: 0 auto;
-  }
-
-  .actions {
-    position: relative;
-    margin-top: auto;
-    padding-bottom: calc(32px + env(safe-area-inset-bottom));
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .btn-google {
-    width: 100%;
-    height: 54px;
-    border-radius: 16px;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1.5px solid var(--border);
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-decoration: none;
-    background: var(--primary);
-    color: var(--primary-text);
-    transition: transform 0.15s ease, opacity 0.15s ease;
-  }
-
-  .btn-google:active { transform: scale(0.98); }
-  .btn-google:disabled { opacity: 0.6; cursor: default; transform: none; }
-
-  .btn-google:focus-visible {
-    outline: 2px solid var(--ink);
-    outline-offset: 2px;
-  }
-
-  .google-icon-box {
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .error-msg {
-    color: #ff8a8a;
+  .label {
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.45);
     font-size: 13px;
-    text-align: center;
-    min-height: 18px;
-    margin-top: -2px;
+    letter-spacing: 0.3px;
   }
 </style>
 </head>
 <body>
-  <div class="screen">
-    <div class="rays"></div>
-
-    <div class="sparkle-wrap">
-      <svg viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustrasi bintang berkilau">
-        <path d="M85 22 C90 66 92 72 134 78 C92 84 90 90 85 134 C80 90 78 84 36 78 C78 72 80 66 85 22 Z"
-              fill="var(--rose)" stroke="var(--rose-line)" stroke-width="1.6" stroke-linejoin="round"/>
-        <path d="M28 50 L31 58 L39 61 L31 64 L28 72 L25 64 L17 61 L25 58 Z"
-              fill="none" stroke="var(--muted)" stroke-width="1.3"/>
-        <path d="M132 30 L135.5 39 L145 42.5 L135.5 46 L132 55 L128.5 46 L119 42.5 L128.5 39 Z"
-              fill="none" stroke="var(--muted)" stroke-width="1.3"/>
-      </svg>
+  <div class="container">
+    <div class="bar-track">
+      <div class="bar-fill"></div>
     </div>
-
-    <div class="content">
-      <h1>Explore the app</h1>
-      <p class="subtitle">Your trusted marketplace for buying and selling accounts.</p>
-    </div>
-
-    <div class="actions">
-      <p class="error-msg" id="errorMsg"></p>
-      <button class="btn-google" id="googleBtn" type="button">
-        <span class="google-icon-box">
-          <svg width="20" height="20" viewBox="0 0 20 20">
-            <path fill="#4285F4" d="M19.6 10.23c0-.68-.06-1.32-.17-1.94H10v3.68h5.4c-.23 1.25-.95 2.31-2.02 3.02v2.5h3.27c1.91-1.76 3.01-4.35 3.01-7.26z"/>
-            <path fill="#34A853" d="M10 20c2.7 0 4.97-.9 6.63-2.44l-3.27-2.5c-.9.6-2.06.96-3.36.96-2.58 0-4.77-1.75-5.55-4.09H1.05v2.58C2.7 17.74 6.09 20 10 20z"/>
-            <path fill="#FBBC05" d="M4.45 11.93c-.2-.6-.31-1.24-.31-1.93s.11-1.33.31-1.93V5.49H1.05A9.98 9.98 0 000 10c0 1.61.39 3.14 1.05 4.51l3.4-2.58z"/>
-            <path fill="#EA4335" d="M10 3.98c1.47 0 2.79.5 3.83 1.49l2.87-2.87C14.96.99 12.7 0 10 0 6.09 0 2.7 2.26 1.05 5.49l3.4 2.58C5.23 5.73 7.42 3.98 10 3.98z"/>
-          </svg>
-        </span>
-        <span id="googleBtnText">Continue with Google</span>
-      </button>
-    </div>
+    <div class="label">Memuat...</div>
   </div>
-
-<script>
-  const SUPABASE_URL = 'https://sfahxfhsxetoyeosxmba.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_n7Tebkdj4YrMeYtG7_U_lg_LMtOX1IP';
-
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  const googleBtn = document.getElementById('googleBtn');
-  const googleBtnText = document.getElementById('googleBtnText');
-  const errorMsg = document.getElementById('errorMsg');
-
-  googleBtn.addEventListener('click', async () => {
-    errorMsg.textContent = '';
-    googleBtn.disabled = true;
-    googleBtnText.textContent = 'Redirecting…';
-
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin + '/dashboard/'
-      }
-    });
-
-    if (error) {
-      errorMsg.textContent = 'Login gagal: ' + error.message;
-      googleBtn.disabled = false;
-      googleBtnText.textContent = 'Continue with Google';
-    }
-    // Kalau sukses, browser otomatis redirect ke Google lalu balik lagi ke redirectTo di atas.
-  });
-</script>
 </body>
 </html>
