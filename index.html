@@ -20,16 +20,16 @@
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{
     width:100%;
-    min-height:100vh;
+    height:100vh;
+    height:100dvh;
     background:var(--bg);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     color:var(--text);
-    overflow-x:hidden;
+    overflow:hidden;
   }
   body{
     display:flex;
     flex-direction:column;
-    min-height:100vh;
     background:
       radial-gradient(ellipse 120% 60% at 50% 32%, rgba(139,92,246,0.20), transparent 65%),
       var(--bg);
@@ -38,9 +38,18 @@
     width:100%;
     max-width:520px;
     margin:0 auto;
-    min-height:100vh;
+    height:100%;
     display:flex;
     flex-direction:column;
+    overflow:hidden;
+    position:relative;
+  }
+  .main-content{
+    flex:1;
+    width:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
     padding:14px 14px 0 14px;
   }
 
@@ -58,13 +67,14 @@
     gap:10px;
     background:#111212;
     border:1px solid #252626;
-    border-radius:30px;
-    padding:6px 14px 6px 6px;
+    border-radius:24px;
+    height:54px;
+    padding:0 16px 0 6px;
     min-width:0;
   }
   .avatar{
-    width:38px;
-    height:38px;
+    width:42px;
+    height:42px;
     border-radius:50%;
     background:linear-gradient(160deg,#ffb454,#ff8a3d);
     flex-shrink:0;
@@ -72,9 +82,9 @@
     overflow:hidden;
     border:1px solid rgba(255,255,255,0.08);
   }
-  .avatar svg{position:absolute;top:2px;left:5px;width:28px;height:36px;}
+  .avatar svg{position:absolute;top:2px;left:6px;width:30px;height:39px;}
   .username{
-    font-size:16px;
+    font-size:17px;
     font-weight:600;
     white-space:nowrap;
     overflow:hidden;
@@ -82,7 +92,7 @@
   }
   .chevron{
     color:var(--muted);
-    font-size:16px;
+    font-size:17px;
     margin-left:auto;
     flex-shrink:0;
   }
@@ -346,9 +356,9 @@
   .banner-claim:active{transform:scale(0.93);}
 
   /* ---------- BOTTOM NAV ---------- */
-  .bottom-spacer{flex:1;min-height:8px;}
+  .content-bottom-space{height:96px;}
   .bottom-nav{
-    position:sticky;
+    position:fixed;
     bottom:0;
     left:0;
     right:0;
@@ -359,6 +369,7 @@
     border-top:1px solid #201e26;
     display:flex;
     padding:10px 4px calc(10px + env(safe-area-inset-bottom,0px)) 4px;
+    z-index:50;
   }
   .nav-item{
     flex:1;
@@ -387,11 +398,12 @@
     border-radius:2px;
     transition:left .25s ease, width .25s ease;
   }
-  .bottom-nav{position:relative;}
+  .bottom-nav{position:fixed;}
 </style>
 </head>
 <body>
 <div class="app">
+<div class="main-content">
 
   <!-- HEADER -->
   <div class="header">
@@ -552,7 +564,8 @@
     <button class="banner-claim" id="pixfiClaimBtn">CLAIM</button>
   </div>
 
-  <div class="bottom-spacer"></div>
+  <div class="content-bottom-space"></div>
+  </div>
 
   <!-- BOTTOM NAV -->
   <nav class="bottom-nav" id="bottomNav">
