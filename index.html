@@ -2,525 +2,221 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Safario12</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Explore the app</title>
+<link rel="icon" type="image/png" href="https://orbitxy.com/orbitxy.com.png">
+<link rel="apple-touch-icon" href="https://orbitxy.com/orbitxy.com.png">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root{
-    --bg:#0a0a0d;
-    --card:#17151c;
-    --card2:#1c1a22;
-    --purple:#8b5cf6;
-    --purple2:#a855f7;
-    --purple-dark:#3b2560;
-    --yellow:#ffc518;
-    --yellow2:#ffd84d;
-    --text:#ffffff;
-    --muted:#8b889a;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{
-    width:100%;
-    height:100vh;
-    height:100dvh;
-    background:var(--bg);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    color:var(--text);
-    overflow:hidden;
-  }
-  body{
-    display:flex;
-    flex-direction:column;
-    background:
-      radial-gradient(ellipse 120% 60% at 50% 32%, rgba(139,92,246,0.20), transparent 65%),
-      var(--bg);
-  }
-  .app{
-    width:100%;
-    max-width:520px;
-    margin:0 auto;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-    position:relative;
-  }
-  .main-content{
-    flex:1;
-    width:100%;
-    overflow-y:auto;
-    overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
-    padding:14px 14px 0 14px;
+  :root {
+    --bg: #000000;
+    --ink: #ffffff;
+    --muted: #a0a0a0;
+    --rose: #1a1420;
+    --rose-line: #a78bfa;
+    --border: #2a2a2a;
+    --primary: #ffffff;
+    --primary-text: #0a0a0a;
   }
 
-  /* ---------- HEADER ---------- */
-  .header{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:14px;
-  }
-  .profile-pill{
-    flex:1;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:#111212;
-    border:1px solid #252626;
-    border-radius:24px;
-    height:54px;
-    padding:0 16px 0 6px;
-    min-width:0;
-  }
-  .avatar{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    background:linear-gradient(160deg,#ffb454,#ff8a3d);
-    flex-shrink:0;
-    position:relative;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,0.08);
-  }
-  .avatar svg{position:absolute;top:2px;left:6px;width:30px;height:39px;}
-  .username{
-    font-size:17px;
-    font-weight:600;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .chevron{
-    color:var(--muted);
-    font-size:17px;
-    margin-left:auto;
-    flex-shrink:0;
-  }
-  .icon-btn{
-    width:44px;
-    height:44px;
-    border-radius:16px;
-    background:#111212;
-    border:1px solid #252626;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    font-size:14px;
-    font-weight:700;
-    color:#fff;
-    cursor:pointer;
-    transition:transform .12s ease, background .12s ease;
-  }
-  .icon-btn:active{transform:scale(0.90);background:#201d26;}
-  .icon-btn.lang{width:44px;height:44px;padding:0;border-radius:16px;}
+  * { box-sizing: border-box; }
 
-  /* ---------- DAILY LIMIT CARD ---------- */
-  .daily-card{
-    background:linear-gradient(180deg,#18151d,#141218);
-    border:1px solid #24202b;
-    border-radius:26px;
-    padding:16px 18px;
-    margin-bottom:18px;
-  }
-  .daily-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .daily-label{
-    display:flex;
-    align-items:center;
-    gap:4px;
-    color:#b9b6c2;
-    font-size:14px;
-    font-weight:500;
-  }
-  .daily-label .chev{font-size:13px;color:#7a7784;}
-  .balance-label{
-    color:#b9b6c2;
-    font-size:14px;
-    font-weight:500;
-  }
-  .daily-bottom{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-top:8px;
-  }
-  .daily-value, .balance-value{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:22px;
-    font-weight:700;
-  }
-  .balance-value{color:var(--yellow);}
-  .lightning-badge{
-    width:26px;
-    height:26px;
-    border-radius:8px;
-    background:#241a35;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-  }
-  .coin-badge{
-    width:24px;
-    height:24px;
-    border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #ffe27a, #ffb400);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* ---------- LEVEL RING ---------- */
-  .level-wrap{
-    display:flex;
-    justify-content:center;
-    margin:6px 0 6px 0;
-    position:relative;
-  }
-  .ring-box{
-    width:200px;
-    height:200px;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .ring-box svg{
-    position:absolute;
-    top:0;left:0;
-    width:100%;
-    height:100%;
-    transform:rotate(-90deg);
-    filter:drop-shadow(0 0 10px rgba(168,85,247,0.45));
-  }
-  .ring-center{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    z-index:2;
-  }
-  .lvl-label{
-    font-size:15px;
-    color:#c9c6d3;
-    font-weight:500;
-    letter-spacing:0.5px;
-  }
-  .lvl-number{
-    font-size:44px;
-    font-weight:800;
-    line-height:1;
-    margin-top:2px;
-  }
-  .lvl-pill{
-    position:absolute;
-    bottom:-6px;
-    background:linear-gradient(180deg,#9d5cf5,#7c3aed);
-    padding:6px 16px;
-    border-radius:20px;
-    font-size:13px;
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    gap:4px;
-    box-shadow:0 4px 14px rgba(124,58,237,0.5);
-    cursor:pointer;
-    user-select:none;
-  }
-  .lvl-pill .fade{color:rgba(255,255,255,0.55);}
-
-  /* ---------- CHARACTERS ---------- */
-  .characters{
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    gap:2px;
-    margin:8px 0 14px 0;
-    min-height:190px;
-  }
-  .characters svg{
-    filter:drop-shadow(0 12px 18px rgba(0,0,0,0.55));
-  }
-  .cat-char{width:150px;height:180px;}
-  .penguin-char{width:130px;height:180px;margin-left:-14px;}
-
-  /* ---------- CLAIM BUTTON ---------- */
-  .claim-btn{
-    width:100%;
-    background:linear-gradient(180deg,var(--yellow2),var(--yellow));
-    border-radius:30px;
-    padding:8px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    border:none;
-    cursor:pointer;
-    margin-bottom:14px;
-    box-shadow:0 8px 20px rgba(255,197,24,0.25);
-    transition:transform .12s ease;
-  }
-  .claim-btn:active{transform:scale(0.97);}
-  .timer-circle{
-    width:56px;
-    height:56px;
-    border-radius:50%;
-    background:rgba(0,0,0,0.18);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-  }
-  .timer-circle svg{width:16px;height:16px;margin-bottom:1px;}
-  .timer-text{
-    font-size:11px;
-    font-weight:700;
-    color:#3a2c00;
-  }
-  .claim-text{
-    flex:1;
-    text-align:center;
-    font-size:21px;
-    font-weight:800;
-    color:#1a1200;
-    padding-right:56px;
-  }
-  .claim-text span{
-    font-weight:700;
-    color:#5c4a12;
-    opacity:0.75;
-    margin-left:6px;
+  body {
+    min-height: 100dvh;
   }
 
-  /* ---------- BANNER ---------- */
-  .banner{
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(135deg,#8b3fe0,#7c3aed 60%,#a855f7);
-    border-radius:24px;
-    padding:20px;
-    margin-bottom:16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    min-height:112px;
+  .screen {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    background: var(--bg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0 28px;
   }
-  .banner .bg-pattern{
-    position:absolute;
-    inset:0;
-    opacity:0.18;
-    background-image:
-      linear-gradient(45deg, transparent 45%, #fff 45%, #fff 55%, transparent 55%),
-      linear-gradient(-45deg, transparent 45%, #fff 45%, #fff 55%, transparent 55%);
-    background-size:34px 34px;
-  }
-  .banner-text{position:relative;z-index:2;}
-  .banner-text .l1{
-    font-size:21px;
-    font-weight:800;
-    line-height:1.15;
-  }
-  .banner-text .l2{
-    font-size:21px;
-    font-weight:800;
-    line-height:1.15;
-  }
-  .banner-text .l3{
-    font-size:12.5px;
-    font-weight:600;
-    color:rgba(255,255,255,0.85);
-    margin-top:8px;
-    letter-spacing:0.3px;
-  }
-  .banner-claim{
-    position:relative;
-    z-index:2;
-    background:linear-gradient(180deg,var(--yellow2),var(--yellow));
-    color:#1a1200;
-    font-size:14px;
-    font-weight:800;
-    border:none;
-    padding:12px 22px;
-    border-radius:18px;
-    cursor:pointer;
-    flex-shrink:0;
-    transition:transform .12s ease;
-  }
-  .banner-claim:active{transform:scale(0.93);}
 
-  /* ---------- BOTTOM NAV ---------- */
-  .content-bottom-space{height:96px;}
-  .bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    width:100%;
-    max-width:520px;
-    margin:0 auto;
-    background:#0c0b0f;
-    border-top:1px solid #201e26;
-    display:flex;
-    padding:10px 4px calc(10px + env(safe-area-inset-bottom,0px)) 4px;
-    z-index:50;
+  .rays {
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    width: 900px;
+    height: 900px;
+    transform: translateX(-50%);
+    background: repeating-conic-gradient(
+      from 0deg,
+      rgba(255,255,255,0.035) 0deg 1.2deg,
+      transparent 1.2deg 6deg
+    );
+    -webkit-mask-image: radial-gradient(circle at center, black 0%, black 40%, transparent 72%);
+    mask-image: radial-gradient(circle at center, black 0%, black 40%, transparent 72%);
+    pointer-events: none;
   }
-  .nav-item{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:4px;
-    color:var(--muted);
-    cursor:pointer;
-    font-size:11px;
-    font-weight:600;
-    padding:4px 0;
-    transition:color .15s ease;
-    -webkit-user-select:none;
-    user-select:none;
+
+  .sparkle-wrap {
+    position: relative;
+    margin: 15vh auto 0;
+    width: 170px;
+    height: 170px;
   }
-  .nav-item svg{width:22px;height:22px;transition:transform .15s ease;}
-  .nav-item.active{color:var(--purple2);}
-  .nav-item.active svg{transform:translateY(-1px);}
-  .nav-item:active svg{transform:scale(0.85);}
-  .nav-indicator{
-    position:absolute;
-    top:0;
-    height:2px;
-    background:var(--purple2);
-    border-radius:2px;
-    transition:left .25s ease, width .25s ease;
+
+  .sparkle-wrap svg { width: 100%; height: 100%; overflow: visible; }
+
+  .content {
+    position: relative;
+    text-align: center;
+    margin-top: 40px;
   }
-  .bottom-nav{position:fixed;}
+
+  h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .actions {
+    position: relative;
+    margin-top: auto;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-google {
+    width: 100%;
+    height: 54px;
+    border-radius: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    background: var(--primary);
+    color: var(--primary-text);
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn-google:active { transform: scale(0.98); }
+  .btn-google:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+  .btn-google:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  .google-icon-box {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .error-msg {
+    color: #ff8a8a;
+    font-size: 13px;
+    text-align: center;
+    min-height: 18px;
+    margin-top: -2px;
+  }
 </style>
 </head>
 <body>
-<div class="app">
-<div class="main-content">
+  <div class="screen">
+    <div class="rays"></div>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="profile-pill">
-      <div class="avatar">
-        <svg viewBox="0 0 24 30"><path d="M4 30 C4 20 8 16 12 16 C16 16 20 20 20 30 Z" fill="#2a2a2a"/><circle cx="12" cy="9" r="7" fill="#e8b48a"/><path d="M5 9 C5 2 19 2 19 9 C15 5 9 5 5 9Z" fill="#7ed321"/><path d="M8 3 L7 -2 M12 2 L12 -3 M16 3 L17 -2" stroke="#7ed321" stroke-width="2" stroke-linecap="round"/></svg>
-      </div>
-      <span class="username">Safario12</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="icon-btn" id="walletBtn">
-      <svg width="21" height="21" viewBox="0 0 24 24">
-        <path d="M4 8.2C4 6.43 5.43 5 7.2 5h9.6c.66 0 1.2.54 1.2 1.2v1.1H7.2C6.1 7.3 5.2 6.9 5.2 6.9" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        <rect x="4" y="7.3" width="16" height="11.7" rx="3.2" fill="#fff"/>
-        <path d="M20 12.3h-3.1c-1 0-1.8.8-1.8 1.8s.8 1.8 1.8 1.8H20" fill="#151318"/>
-        <circle cx="16.6" cy="14.1" r="0.9" fill="#fff"/>
+    <div class="sparkle-wrap">
+      <svg viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustrasi bintang berkilau">
+        <path d="M85 22 C90 66 92 72 134 78 C92 84 90 90 85 134 C80 90 78 84 36 78 C78 72 80 66 85 22 Z"
+              fill="var(--rose)" stroke="var(--rose-line)" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M28 50 L31 58 L39 61 L31 64 L28 72 L25 64 L17 61 L25 58 Z"
+              fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+        <path d="M132 30 L135.5 39 L145 42.5 L135.5 46 L132 55 L128.5 46 L119 42.5 L128.5 39 Z"
+              fill="none" stroke="var(--muted)" stroke-width="1.3"/>
       </svg>
     </div>
-    <div class="icon-btn" id="helpBtn">
-      <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#fff"/><text x="12" y="17" text-anchor="middle" font-size="13" font-weight="800" fill="#151318" font-family="-apple-system,Helvetica,Arial,sans-serif">?</text></svg>
-    </div>
-    <div class="icon-btn lang" id="langBtn">en</div>
-  </div>
 
-  <!-- DAILY LIMIT CARD -->
-  <div class="daily-card">
-    <div class="daily-top">
-      <div class="daily-label">Daily Limit <span class="chev">›</span></div>
-      <div class="balance-label">Balance</div>
+    <div class="content">
+      <h1>Explore the app</h1>
+      <p class="subtitle">Your trusted marketplace for buying and selling accounts.</p>
     </div>
-    <div class="daily-bottom">
-      <div class="daily-value">
-        <span class="lightning-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="#a855f7"><path d="M13 2 L4 14h6l-1 8 9-12h-6z"/></svg>
+
+    <div class="actions">
+      <p class="error-msg" id="errorMsg"></p>
+      <button class="btn-google" id="googleBtn" type="button">
+        <span class="google-icon-box">
+          <svg width="20" height="20" viewBox="0 0 20 20">
+            <path fill="#4285F4" d="M19.6 10.23c0-.68-.06-1.32-.17-1.94H10v3.68h5.4c-.23 1.25-.95 2.31-2.02 3.02v2.5h3.27c1.91-1.76 3.01-4.35 3.01-7.26z"/>
+            <path fill="#34A853" d="M10 20c2.7 0 4.97-.9 6.63-2.44l-3.27-2.5c-.9.6-2.06.96-3.36.96-2.58 0-4.77-1.75-5.55-4.09H1.05v2.58C2.7 17.74 6.09 20 10 20z"/>
+            <path fill="#FBBC05" d="M4.45 11.93c-.2-.6-.31-1.24-.31-1.93s.11-1.33.31-1.93V5.49H1.05A9.98 9.98 0 000 10c0 1.61.39 3.14 1.05 4.51l3.4-2.58z"/>
+            <path fill="#EA4335" d="M10 3.98c1.47 0 2.79.5 3.83 1.49l2.87-2.87C14.96.99 12.7 0 10 0 6.09 0 2.7 2.26 1.05 5.49l3.4 2.58C5.23 5.73 7.42 3.98 10 3.98z"/>
+          </svg>
         </span>
-        734.4K
-      </div>
-      <div class="balance-value">
-        2.13M
-        <span class="coin-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0.001 0z" fill="none" stroke="#8a5a00" stroke-width="1.6"/><path d="M8 12c0-3 8-1 8-4" stroke="#8a5a00" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
-        </span>
-      </div>
+        <span id="googleBtnText">Continue with Google</span>
+      </button>
     </div>
   </div>
-
-  <div class="content-bottom-space"></div>
-  </div>
-
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav" id="bottomNav">
-    <div class="nav-indicator" id="navIndicator"></div>
-    <div class="nav-item active" data-nav="earn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/></svg>
-      <span>Earn</span>
-    </div>
-    <div class="nav-item" data-nav="invite">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l1.5 1.5L15 9"/><circle cx="12" cy="12" r="9"/></svg>
-      <span>Invite</span>
-    </div>
-    <div class="nav-item" data-nav="fight">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4l7 7M13 4l-7 7M9.5 11.5L4 17v3h3l5.5-5.5"/><path d="M18 4l-3 3M19 5l1 1-3 3-1-1z"/></svg>
-      <span>Fight</span>
-    </div>
-    <div class="nav-item" data-nav="top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
-      <span>Top</span>
-    </div>
-    <div class="nav-item" data-nav="rewards">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.7-4 3.9 1 5.4-5-2.6-5 2.6 1-5.4-4-3.9 5.5-.7z"/></svg>
-      <span>Rewards</span>
-    </div>
-  </nav>
-
-</div>
 
 <script>
+  const SUPABASE_URL = 'https://sfahxfhsxetoyeosxmba.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_n7Tebkdj4YrMeYtG7_U_lg_LMtOX1IP';
 
-  // bottom nav active state + moving purple indicator
-  var navIndicator = document.getElementById('navIndicator');
-  var navItems = document.querySelectorAll('.nav-item');
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  function moveIndicatorTo(item){
-    var navRect = item.parentElement.getBoundingClientRect();
-    var itemRect = item.getBoundingClientRect();
-    var width = 28;
-    var left = (itemRect.left - navRect.left) + (itemRect.width / 2) - (width / 2);
-    navIndicator.style.width = width + 'px';
-    navIndicator.style.left = left + 'px';
-  }
+  const googleBtn = document.getElementById('googleBtn');
+  const googleBtnText = document.getElementById('googleBtnText');
+  const errorMsg = document.getElementById('errorMsg');
 
-  navItems.forEach(function(item){
-    item.addEventListener('click', function(){
-      navItems.forEach(function(i){ i.classList.remove('active'); });
-      item.classList.add('active');
-      moveIndicatorTo(item);
+  googleBtn.addEventListener('click', async () => {
+    errorMsg.textContent = '';
+    googleBtn.disabled = true;
+    googleBtnText.textContent = 'Redirecting…';
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/dashboard/'
+      }
     });
-  });
 
-  // set initial indicator position on load
-  window.addEventListener('load', function(){
-    var activeItem = document.querySelector('.nav-item.active');
-    if(activeItem){
-      navIndicator.style.transition = 'none';
-      moveIndicatorTo(activeItem);
-      requestAnimationFrame(function(){
-        navIndicator.style.transition = 'left .25s ease, width .25s ease';
-      });
+    if (error) {
+      errorMsg.textContent = 'Login gagal: ' + error.message;
+      googleBtn.disabled = false;
+      googleBtnText.textContent = 'Continue with Google';
     }
-  });
-
-  // icon buttons feedback (wallet/help/lang)
-  document.querySelectorAll('.icon-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      btn.style.opacity = '0.6';
-      setTimeout(function(){ btn.style.opacity = '1'; }, 150);
-    });
+    // Kalau sukses, browser otomatis redirect ke Google lalu balik lagi ke redirectTo di atas.
   });
 </script>
 </body>
