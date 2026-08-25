@@ -2,76 +2,75 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <title>Team Up! Time to Play.</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
-    min-height: 100dvh;
     width: 100%;
-    overflow-x: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
   }
 
   body {
+    height: 100dvh;
+    overflow: hidden;
     display: flex;
     justify-content: center;
-    background: #eef2f2;
+    background: #101010;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .app {
     position: relative;
     width: 100%;
     max-width: 480px;
-    min-height: 100dvh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     background: linear-gradient(160deg, #a7ecd7 0%, #8fe3d6 35%, #b9eec2 65%, #e9f4ad 100%);
-    overflow: hidden;
   }
 
-  /* Decorative abstract shapes */
+  /* ---------- Decorative abstract shapes ---------- */
   .shape {
     position: absolute;
     border-radius: 50%;
-    background: rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.16);
     pointer-events: none;
   }
-  .shape-1 {
-    width: 220px; height: 220px;
-    top: -40px; left: -80px;
-    background: rgba(255,255,255,0.12);
-  }
+  .shape-1 { width: 200px; height: 200px; top: -50px; left: -70px; background: rgba(255,255,255,0.12); }
   .shape-2 {
-    width: 90px; height: 130px;
-    top: 60px; left: 10px;
+    width: 80px; height: 120px; top: 8%; left: 6%;
     border-radius: 30% 70% 40% 60% / 50% 40% 60% 50%;
     background: rgba(255,255,255,0.15);
     transform: rotate(-15deg);
   }
-  .shape-3 {
-    width: 160px; height: 160px;
-    top: 30px; right: -60px;
-    background: rgba(255,255,255,0.10);
-  }
+  .shape-3 { width: 140px; height: 140px; top: 4%; right: -50px; background: rgba(255,255,255,0.10); }
   .shape-mic {
     position: absolute;
-    top: 55px;
-    right: 55px;
-    width: 60px;
-    height: 100px;
+    top: 8%;
+    right: 14%;
+    width: 50px;
+    height: 90px;
     border: 5px solid rgba(255,255,255,0.35);
     border-radius: 30px;
     transform: rotate(18deg);
   }
 
+  /* ---------- Info icon ---------- */
   .info-icon {
     position: absolute;
-    top: 22px;
-    right: 20px;
-    width: 32px;
-    height: 32px;
+    top: 14px;
+    right: 16px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: 2px solid #1a1a1a;
     display: flex;
@@ -80,35 +79,39 @@
     font-family: Georgia, serif;
     font-style: italic;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 15px;
     color: #1a1a1a;
     background: rgba(255,255,255,0.25);
     z-index: 5;
     cursor: pointer;
+    flex-shrink: 0;
   }
 
+  /* ---------- Title ---------- */
   .title-wrap {
     position: relative;
     z-index: 3;
-    padding: 70px 24px 0 24px;
+    padding: clamp(28px, 6dvh, 56px) 20px 0 20px;
     text-align: center;
+    flex-shrink: 0;
   }
 
   .title-wrap h1 {
-    font-size: 42px;
-    line-height: 1.15;
+    font-size: clamp(24px, 6.2dvh, 40px);
+    line-height: 1.12;
     font-weight: 900;
     color: #16241f;
     letter-spacing: -0.5px;
     font-family: "Arial Rounded MT Bold", "Segoe UI", Arial, sans-serif;
   }
 
+  /* ---------- Illustration area (flexible, absorbs leftover space) ---------- */
   .illustration-area {
     position: relative;
     z-index: 2;
-    flex-grow: 1;
-    min-height: 220px;
-    margin-top: 24px;
+    flex: 1 1 auto;
+    min-height: 60px;
+    margin-top: clamp(8px, 2dvh, 22px);
   }
 
   .white-blob {
@@ -116,7 +119,7 @@
     left: -10%;
     right: -10%;
     bottom: 0;
-    top: 40px;
+    top: 35%;
     background: #ffffff;
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   }
@@ -124,46 +127,47 @@
   .char {
     position: absolute;
     z-index: 3;
+    height: min(22dvh, 45%);
+    width: auto;
   }
 
   .char-left {
     left: 8%;
-    bottom: 28%;
-    width: 150px;
-    height: 130px;
+    bottom: 22%;
   }
 
   .char-right {
     right: 10%;
-    bottom: 38%;
-    width: 130px;
-    height: 100px;
+    bottom: 30%;
   }
 
+  /* ---------- Bottom sheet with buttons ---------- */
   .bottom-sheet {
     position: relative;
     z-index: 4;
     background: #ffffff;
-    padding: 8px 20px 24px 20px;
+    padding: clamp(4px, 1dvh, 10px) 20px clamp(10px, 2dvh, 20px) 20px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: clamp(6px, 1.4dvh, 12px);
+    flex-shrink: 0;
   }
 
   .btn {
     width: 100%;
-    height: 56px;
-    border-radius: 28px;
+    height: clamp(42px, 7.2dvh, 56px);
+    border-radius: 999px;
     border: none;
     display: flex;
     align-items: center;
-    padding: 0 20px;
-    font-size: 16px;
+    padding: 0 clamp(14px, 4vw, 20px);
+    font-size: clamp(13px, 3.3dvw, 16px);
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
     position: relative;
     -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
   }
 
   .btn:active {
@@ -178,7 +182,7 @@
     gap: 10px;
   }
 
-  .btn-apple svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .btn-apple svg { width: clamp(16px, 4vw, 20px); height: clamp(16px, 4vw, 20px); flex-shrink: 0; }
 
   .btn-light {
     background: #f2f2f2;
@@ -187,14 +191,14 @@
   }
 
   .btn-icon {
-    width: 30px;
-    height: 30px;
+    width: clamp(24px, 6vw, 30px);
+    height: clamp(24px, 6vw, 30px);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    margin-right: 14px;
+    margin-right: clamp(10px, 3vw, 14px);
     overflow: hidden;
   }
 
@@ -203,28 +207,31 @@
   .icon-google { background: #ffffff; }
   .icon-fb { background: #1877f2; }
 
-  .btn-icon svg { width: 18px; height: 18px; }
+  .btn-icon svg { width: 60%; height: 60%; }
 
   .btn-label {
     flex-grow: 1;
     text-align: left;
-    font-size: 15.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .chevron {
-    width: 18px;
-    height: 18px;
+    width: clamp(14px, 3.6vw, 18px);
+    height: clamp(14px, 3.6vw, 18px);
     flex-shrink: 0;
     opacity: 0.55;
+    margin-left: 6px;
   }
 
   .terms {
     text-align: center;
-    font-size: 12.5px;
-    line-height: 1.5;
+    font-size: clamp(10px, 2.6vw, 12.5px);
+    line-height: 1.4;
     color: #8a8a8a;
-    padding-top: 6px;
-    padding-bottom: env(safe-area-inset-bottom, 8px);
+    padding-top: clamp(2px, 0.6dvh, 6px);
+    flex-shrink: 0;
   }
 
   .terms b {
@@ -232,31 +239,40 @@
     font-weight: 700;
   }
 
-  /* Small phones */
-  @media (max-width: 360px) {
-    .title-wrap { padding-top: 50px; }
-    .title-wrap h1 { font-size: 34px; }
-    .illustration-area { min-height: 170px; }
-    .btn { height: 50px; border-radius: 25px; }
-    .btn-label { font-size: 14.5px; }
+  /* ---------- HP pendek (layar rendah) ---------- */
+  @media (max-height: 700px) {
+    .title-wrap { padding-top: clamp(16px, 4dvh, 30px); }
+    .title-wrap h1 { font-size: clamp(20px, 5.4dvh, 30px); }
+    .illustration-area { min-height: 40px; margin-top: 6px; }
+    .char { height: min(16dvh, 40%); }
+    .bottom-sheet { gap: 6px; padding: 2px 20px 8px 20px; }
+    .btn { height: clamp(38px, 6.2dvh, 48px); }
+    .terms { font-size: 10px; }
   }
 
-  /* Large screens */
+  /* ---------- HP normal ---------- */
+  @media (min-height: 701px) and (max-height: 800px) {
+    .title-wrap h1 { font-size: clamp(26px, 5.6dvh, 34px); }
+    .char { height: min(19dvh, 42%); }
+    .btn { height: clamp(44px, 6.6dvh, 52px); }
+  }
+
+  /* ---------- HP tinggi ---------- */
+  @media (min-height: 801px) {
+    .title-wrap h1 { font-size: clamp(28px, 5.6dvh, 40px); }
+    .char { height: min(22dvh, 45%); }
+    .btn { height: clamp(48px, 6.8dvh, 56px); }
+  }
+
+  /* ---------- Layar besar / desktop ---------- */
   @media (min-width: 700px) {
     body { background: #dfe6e6; }
     .app {
       max-width: 480px;
-      min-height: 100dvh;
+      height: 100dvh;
       margin: 0 auto;
       box-shadow: 0 0 40px rgba(0,0,0,0.08);
     }
-  }
-
-  @media (max-height: 650px) {
-    .title-wrap { padding-top: 40px; }
-    .illustration-area { min-height: 150px; margin-top: 14px; }
-    .bottom-sheet { gap: 10px; padding-bottom: 16px; }
-    .btn { height: 50px; }
   }
 </style>
 </head>
@@ -280,12 +296,9 @@
 
     <!-- Left character: bird-like -->
     <svg class="char char-left" viewBox="0 0 150 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- ears/wings -->
       <path d="M35 55 Q10 40 5 65 Q25 70 40 62 Z" fill="#f6c9cf"/>
       <path d="M60 50 Q75 30 95 40 Q85 58 65 60 Z" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill-opacity="0"/>
-      <!-- body -->
       <ellipse cx="55" cy="80" rx="26" ry="30" fill="#d94f4f" transform="rotate(-10 55 80)"/>
-      <!-- eyes closed / squint marks -->
       <path d="M40 55 L50 62 M50 55 L40 62" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
       <path d="M65 48 L75 40 M78 48 L88 42" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
     </svg>
@@ -308,7 +321,7 @@
 
     <button class="btn btn-light" type="button">
       <span class="btn-icon icon-phone">
-        <svg viewBox="0 0 24 24" fill="#ffffff"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" /></svg>
+        <svg viewBox="0 0 24 24" fill="#ffffff"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
       </span>
       <span class="btn-label">Connect with phone number</span>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
@@ -362,6 +375,11 @@
     this.style.transform = 'scale(0.9)';
     setTimeout(() => { this.style.transform = ''; }, 200);
   });
+
+  // Cegah pull-to-refresh / bounce scroll pada mobile browser
+  document.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+  }, { passive: false });
 </script>
 
 </body>
