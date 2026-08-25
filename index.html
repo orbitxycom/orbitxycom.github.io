@@ -2,89 +2,367 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>Loading</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Team Up! Time to Play.</title>
 <style>
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
+    min-height: 100dvh;
     width: 100%;
-    min-height: 100%;
-    margin: 0;
-    padding: 0;
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   body {
-    height: 100dvh;
-    min-height: 100dvh;
-    background: #000;
-    overflow: hidden;
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #eef2f2;
   }
 
-  .screen {
+  .app {
+    position: relative;
     width: 100%;
-    height: 100dvh;
+    max-width: 480px;
     min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(160deg, #a7ecd7 0%, #8fe3d6 35%, #b9eec2 65%, #e9f4ad 100%);
+    overflow: hidden;
+  }
+
+  /* Decorative abstract shapes */
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    pointer-events: none;
+  }
+  .shape-1 {
+    width: 220px; height: 220px;
+    top: -40px; left: -80px;
+    background: rgba(255,255,255,0.12);
+  }
+  .shape-2 {
+    width: 90px; height: 130px;
+    top: 60px; left: 10px;
+    border-radius: 30% 70% 40% 60% / 50% 40% 60% 50%;
+    background: rgba(255,255,255,0.15);
+    transform: rotate(-15deg);
+  }
+  .shape-3 {
+    width: 160px; height: 160px;
+    top: 30px; right: -60px;
+    background: rgba(255,255,255,0.10);
+  }
+  .shape-mic {
+    position: absolute;
+    top: 55px;
+    right: 55px;
+    width: 60px;
+    height: 100px;
+    border: 5px solid rgba(255,255,255,0.35);
+    border-radius: 30px;
+    transform: rotate(18deg);
+  }
+
+  .info-icon {
+    position: absolute;
+    top: 22px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #1a1a1a;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 24px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 16px;
+    color: #1a1a1a;
+    background: rgba(255,255,255,0.25);
+    z-index: 5;
+    cursor: pointer;
   }
 
-  .container {
-    width: 60%;
-    max-width: 320px;
+  .title-wrap {
+    position: relative;
+    z-index: 3;
+    padding: 70px 24px 0 24px;
     text-align: center;
   }
 
-  .bar-track {
+  .title-wrap h1 {
+    font-size: 42px;
+    line-height: 1.15;
+    font-weight: 900;
+    color: #16241f;
+    letter-spacing: -0.5px;
+    font-family: "Arial Rounded MT Bold", "Segoe UI", Arial, sans-serif;
+  }
+
+  .illustration-area {
     position: relative;
-    width: 100%;
-    height: 6px;
-    border-radius: 999px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.15);
+    z-index: 2;
+    flex-grow: 1;
+    min-height: 220px;
+    margin-top: 24px;
   }
 
-  .bar-fill {
+  .white-blob {
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 60%;
-    border-radius: 999px;
-    background: #e5e5e5;
-    animation: loading 1.7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-    will-change: transform;
+    left: -10%;
+    right: -10%;
+    bottom: 0;
+    top: 40px;
+    background: #ffffff;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   }
 
-  @keyframes loading {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(220%); }
+  .char {
+    position: absolute;
+    z-index: 3;
   }
 
-  .label {
-    margin-top: 20px;
-    color: rgba(255, 255, 255, 0.45);
-    font-size: 13px;
-    letter-spacing: 0.3px;
+  .char-left {
+    left: 8%;
+    bottom: 28%;
+    width: 150px;
+    height: 130px;
+  }
+
+  .char-right {
+    right: 10%;
+    bottom: 38%;
+    width: 130px;
+    height: 100px;
+  }
+
+  .bottom-sheet {
+    position: relative;
+    z-index: 4;
+    background: #ffffff;
+    padding: 8px 20px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    width: 100%;
+    height: 56px;
+    border-radius: 28px;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+
+  .btn-apple {
+    background: #0d0d0d;
+    color: #ffffff;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .btn-apple svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  .btn-light {
+    background: #f2f2f2;
+    color: #1a1a1a;
+    justify-content: flex-start;
+  }
+
+  .btn-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 14px;
+    overflow: hidden;
+  }
+
+  .icon-phone { background: #34c77b; }
+  .icon-snap { background: #fffc00; }
+  .icon-google { background: #ffffff; }
+  .icon-fb { background: #1877f2; }
+
+  .btn-icon svg { width: 18px; height: 18px; }
+
+  .btn-label {
+    flex-grow: 1;
+    text-align: left;
+    font-size: 15.5px;
+  }
+
+  .chevron {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.55;
+  }
+
+  .terms {
+    text-align: center;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #8a8a8a;
+    padding-top: 6px;
+    padding-bottom: env(safe-area-inset-bottom, 8px);
+  }
+
+  .terms b {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  /* Small phones */
+  @media (max-width: 360px) {
+    .title-wrap { padding-top: 50px; }
+    .title-wrap h1 { font-size: 34px; }
+    .illustration-area { min-height: 170px; }
+    .btn { height: 50px; border-radius: 25px; }
+    .btn-label { font-size: 14.5px; }
+  }
+
+  /* Large screens */
+  @media (min-width: 700px) {
+    body { background: #dfe6e6; }
+    .app {
+      max-width: 480px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      box-shadow: 0 0 40px rgba(0,0,0,0.08);
+    }
+  }
+
+  @media (max-height: 650px) {
+    .title-wrap { padding-top: 40px; }
+    .illustration-area { min-height: 150px; margin-top: 14px; }
+    .bottom-sheet { gap: 10px; padding-bottom: 16px; }
+    .btn { height: 50px; }
   }
 </style>
 </head>
 <body>
-  <div class="screen">
-    <div class="container">
-      <div class="bar-track">
-        <div class="bar-fill"></div>
-      </div>
-      <div class="label">Memuat...</div>
-    </div>
+
+<div class="app">
+
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="shape-mic"></div>
+
+  <div class="info-icon">i</div>
+
+  <div class="title-wrap">
+    <h1>Team Up!<br>Time to Play.</h1>
   </div>
+
+  <div class="illustration-area">
+    <div class="white-blob"></div>
+
+    <!-- Left character: bird-like -->
+    <svg class="char char-left" viewBox="0 0 150 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- ears/wings -->
+      <path d="M35 55 Q10 40 5 65 Q25 70 40 62 Z" fill="#f6c9cf"/>
+      <path d="M60 50 Q75 30 95 40 Q85 58 65 60 Z" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill-opacity="0"/>
+      <!-- body -->
+      <ellipse cx="55" cy="80" rx="26" ry="30" fill="#d94f4f" transform="rotate(-10 55 80)"/>
+      <!-- eyes closed / squint marks -->
+      <path d="M40 55 L50 62 M50 55 L40 62" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+      <path d="M65 48 L75 40 M78 48 L88 42" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Right character: panda-like face -->
+    <svg class="char char-right" viewBox="0 0 130 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="35" cy="30" r="12" fill="#1a1a1a"/>
+      <circle cx="75" cy="20" r="10" fill="#1a1a1a"/>
+      <path d="M25 55 Q50 75 75 55 Q90 45 100 55 Q95 70 75 72" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <ellipse cx="90" cy="58" rx="10" ry="14" fill="#f28ba0" transform="rotate(20 90 58)"/>
+    </svg>
+  </div>
+
+  <div class="bottom-sheet">
+
+    <button class="btn btn-apple" type="button">
+      <svg viewBox="0 0 384 512" fill="#ffffff"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+      <span>Sign in with Apple</span>
+    </button>
+
+    <button class="btn btn-light" type="button">
+      <span class="btn-icon icon-phone">
+        <svg viewBox="0 0 24 24" fill="#ffffff"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" /></svg>
+      </span>
+      <span class="btn-label">Connect with phone number</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+
+    <button class="btn btn-light" type="button">
+      <span class="btn-icon icon-snap">
+        <svg viewBox="0 0 24 24" fill="#1a1a1a"><path d="M12 2c-2.8 0-4.6 2-4.6 4.7 0 .6 0 1.2.1 1.8-.5.2-1 .4-1.4.7-.3.2-.4.6-.2.9.4.7 1.2 1.1 1.9 1.4-.1.5-.4 1-.8 1.4-.6.7-1.5 1.1-2.4 1.3-.3.1-.5.4-.4.7.2.7 1.3 1 2 1.1.1.3.2.6.5.8.5.4 1.4.3 2 .2.7-.1 1.4-.3 2-.1.6.2 1.1.7 1.6 1.1.4.3.9.5 1.4.5s1-.2 1.4-.5c.5-.4 1-.9 1.6-1.1.6-.2 1.3 0 2 .1.6.1 1.5.2 2-.2.3-.2.4-.5.5-.8.7-.1 1.8-.4 2-1.1.1-.3-.1-.6-.4-.7-.9-.2-1.8-.6-2.4-1.3-.4-.4-.7-.9-.8-1.4.7-.3 1.5-.7 1.9-1.4.2-.3.1-.7-.2-.9-.4-.3-.9-.5-1.4-.7.1-.6.1-1.2.1-1.8C16.6 4 14.8 2 12 2z"/></svg>
+      </span>
+      <span class="btn-label">Continue with Snapchat</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+
+    <button class="btn btn-light" type="button">
+      <span class="btn-icon icon-google">
+        <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.3 35 24 35c-6.1 0-11-4.9-11-11s4.9-11 11-11c2.8 0 5.3 1 7.3 2.7l6-6C33.9 6.5 29.2 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c2.8 0 5.3 1 7.3 2.7l6-6C33.9 6.5 29.2 4.5 24 4.5c-7.6 0-14.2 4.3-17.7 10.2z"/><path fill="#4CAF50" d="M24 43.5c5.1 0 9.7-1.9 13.2-5.1l-6.1-5.2C29.2 34.7 26.7 35.5 24 35.5c-5.3 0-9.7-3.5-11.3-8.2l-6.5 5C9.7 39.1 16.3 43.5 24 43.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.1 5.2C40.3 36.4 43.5 30.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/></svg>
+      </span>
+      <span class="btn-label">Connect with Google</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+
+    <button class="btn btn-light" type="button">
+      <span class="btn-icon icon-fb">
+        <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg>
+      </span>
+      <span class="btn-label">Connect with Facebook</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+
+    <p class="terms">By signing up, you agree to the <b>User Agreement</b> &amp; <b>Privacy Policy</b></p>
+
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      btn.style.transition = 'transform 0.15s ease, opacity 0.15s ease';
+      btn.style.transform = 'scale(0.96)';
+      btn.style.opacity = '0.8';
+      setTimeout(function () {
+        btn.style.transform = '';
+        btn.style.opacity = '';
+      }, 180);
+    });
+  });
+
+  document.querySelector('.info-icon').addEventListener('click', function () {
+    this.style.transition = 'transform 0.2s ease';
+    this.style.transform = 'scale(0.9)';
+    setTimeout(() => { this.style.transform = ''; }, 200);
+  });
+</script>
+
 </body>
 </html>
