@@ -87,6 +87,138 @@
   .nav-item.active {
     color: #2f7bff;
   }
+
+  /* ---- Drawer Menu ---- */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 40;
+  }
+  .overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(80vw, 320px);
+    background: #1c1c1e;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 50;
+    overflow-y: auto;
+    padding: 20px 0;
+  }
+  .drawer.show {
+    transform: translateX(0);
+  }
+  .drawer-top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 18px 18px;
+    cursor: pointer;
+  }
+  .drawer-close {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 60;
+    background: rgba(255,255,255,0.12);
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .drawer-close.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .drawer-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #3a3a3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cfcfcf;
+  }
+  .avatar svg { width: 22px; height: 22px; }
+  .drawer-user span {
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .drawer-close, .drawer-arrow {
+    background: none;
+    border: none;
+    color: #9a9a9a;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .drawer-close svg { width: 18px; height: 18px; }
+  .drawer-arrow svg { width: 20px; height: 20px; }
+  .drawer-divider {
+    height: 1px;
+    background: #2c2c2e;
+    margin: 8px 0;
+  }
+  .drawer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    color: #f0f0f0;
+    font-size: 16px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+  }
+  .drawer-item:hover {
+    background: #26262a;
+  }
+  .drawer-item.active-item {
+    background: #2c2c30;
+    border-radius: 10px;
+    margin: 0 8px;
+    width: calc(100% - 16px);
+  }
+  .drawer-item-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .drawer-item-left svg {
+    width: 22px;
+    height: 22px;
+    color: #cfcfcf;
+  }
+  .drawer-item svg.chevron {
+    width: 18px;
+    height: 18px;
+    color: #8a8a8e;
+  }
 </style>
 </head>
 <body>
@@ -98,8 +230,61 @@
     </div>
   </div>
 
+  <div class="overlay" id="overlay"></div>
+
+  <button class="drawer-close" id="drawerClose">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+  </button>
+
+  <div class="drawer" id="drawer">
+    <div class="drawer-top" id="masukRow">
+      <div class="drawer-user">
+        <div class="avatar">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+        </div>
+        <span>Masuk</span>
+      </div>
+      <span class="drawer-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </span>
+    </div>
+
+    <div class="drawer-divider"></div>
+
+    <button class="drawer-item">
+      <div class="drawer-item-left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><line x1="12" y1="4" x2="12" y2="6.5"/><line x1="12" y1="17.5" x2="12" y2="20"/><line x1="4" y1="12" x2="6.5" y2="12"/><line x1="17.5" y1="12" x2="20" y2="12"/></svg>
+        <span>Kasino</span>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+
+    <button class="drawer-item">
+      <div class="drawer-item-left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><polygon points="12,8 14.3,9.7 13.4,12.4 10.6,12.4 9.7,9.7" fill="currentColor" stroke="none"/></svg>
+        <span>Olahraga</span>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+
+    <button class="drawer-item">
+      <div class="drawer-item-left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 15.2c.4.9 1.3 1.4 2.5 1.4 1.6 0 2.7-.8 2.7-2 0-1.3-1.1-1.8-2.7-2.2-1.6-.4-2.6-.9-2.6-2.1 0-1.1 1-1.9 2.5-1.9 1.1 0 2 .4 2.4 1.2" stroke-linecap="round"/><line x1="12" y1="6.5" x2="12" y2="17.8"/></svg>
+        <span>Markets</span>
+      </div>
+    </button>
+
+    <button class="drawer-item active-item">
+      <div class="drawer-item-left">
+        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+        <span>Betwave</span>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </div>
+
   <div class="bottom-nav">
-    <button class="nav-item">
+    <button class="nav-item" id="menuBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       <span>Menu</span>
     </button>
@@ -120,5 +305,27 @@
       <span>Olahraga</span>
     </button>
   </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const drawerClose = document.getElementById('drawerClose');
+
+    function openDrawer() {
+      drawer.classList.add('show');
+      overlay.classList.add('show');
+      drawerClose.classList.add('show');
+    }
+    function closeDrawer() {
+      drawer.classList.remove('show');
+      overlay.classList.remove('show');
+      drawerClose.classList.remove('show');
+    }
+
+    menuBtn.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+  </script>
 </body>
 </html>
