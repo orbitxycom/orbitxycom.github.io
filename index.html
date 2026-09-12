@@ -2,59 +2,59 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>404 Not Found</title>
+<title>Header Buttons</title>
 <style>
-  html, body {
+  * { box-sizing: border-box; }
+  body {
     margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #000;
-    overflow: hidden;
+    min-height: 100vh;
+    background: #121212;
+    font-family: 'Segoe UI', Arial, sans-serif;
   }
-
-  .container {
-    width: 100%;
-    height: 100vh;
+  .header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    text-align: center;
-    padding: 0 8%;
-    box-sizing: border-box;
+    padding: 20px 24px;
   }
-
-  .code {
-    font-size: 20vw;
+  .logo {
+    color: #ffffff;
+    font-size: 20px;
     font-weight: 800;
-    color: #4d4d4d;
-    line-height: 1;
-    margin: 0;
-    letter-spacing: 2px;
+    letter-spacing: 0.5px;
   }
-
-  .title {
-    font-size: 8vw;
-    font-weight: 800;
-    color: #4d4d4d;
-    margin: 4vw 0 3vw 0;
+  .btn {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 8px;
   }
-
-  .message {
-    font-size: 3.6vw;
-    font-weight: 400;
-    color: #4d4d4d;
-    margin: 0;
-    max-width: 90%;
+  .btn-masuk {
+    background: #2c2c2e;
+    color: #ffffff;
+  }
+  .btn-masuk:hover {
+    background: #3a3a3c;
+  }
+  .btn-daftar {
+    background: #23c65b;
+    color: #ffffff;
+  }
+  .btn-daftar:hover {
+    background: #1fae4f;
   }
 </style>
 </head>
 <body>
-  <div class="container">
-    <div class="code">404</div>
-    <div class="title">Not Found</div>
-    <div class="message">The resource requested could not be found on this server!</div>
+  <div class="header">
+    <div class="logo">orbitxy</div>
+    <div>
+      <button class="btn btn-masuk">Masuk</button>
+      <button class="btn btn-daftar">Pendaftaran</button>
+    </div>
   </div>
 </body>
 </html>
