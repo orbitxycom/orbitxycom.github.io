@@ -680,6 +680,12 @@
     loginClose.addEventListener('click', closeLogin);
     loginOverlay.addEventListener('click', closeLogin);
 
+    const masukRow = document.getElementById('masukRow');
+    masukRow.addEventListener('click', function() {
+      closeDrawer();
+      openLogin();
+    });
+
     const daftarBtn = document.getElementById('daftarBtn');
     const registerSheet = document.getElementById('registerSheet');
     const registerOverlay = document.getElementById('registerOverlay');
