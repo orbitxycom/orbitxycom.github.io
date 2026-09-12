@@ -2,11 +2,13 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Header Buttons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Header orbitxy</title>
 <style>
   * { box-sizing: border-box; }
-  body {
+  html, body {
     margin: 0;
+    padding: 0;
     min-height: 100vh;
     background: #121212;
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -15,22 +17,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 24px;
+    background: #161616;
+    padding: clamp(14px, 3.5vw, 20px) clamp(16px, 4vw, 28px);
   }
   .logo {
     color: #ffffff;
-    font-size: 20px;
+    font-size: clamp(18px, 4.5vw, 24px);
     font-weight: 800;
     letter-spacing: 0.5px;
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 2vw, 14px);
   }
   .btn {
     border: none;
     border-radius: 8px;
-    padding: 8px 18px;
-    font-size: 13px;
+    padding: clamp(9px, 2.2vw, 13px) clamp(18px, 4.5vw, 28px);
+    font-size: clamp(14px, 3.2vw, 16px);
     font-weight: 700;
     cursor: pointer;
-    margin-left: 8px;
+    white-space: nowrap;
   }
   .btn-masuk {
     background: #2c2c2e;
@@ -51,7 +59,7 @@
 <body>
   <div class="header">
     <div class="logo">orbitxy</div>
-    <div>
+    <div class="buttons">
       <button class="btn btn-masuk">Masuk</button>
       <button class="btn btn-daftar">Pendaftaran</button>
     </div>
