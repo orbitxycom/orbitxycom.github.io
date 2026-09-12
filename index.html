@@ -5,7 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Header orbitxy</title>
 <style>
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  button, input, a {
+    outline: none;
+  }
+  button:focus, input:focus, a:focus {
+    outline: none;
+  }
   html, body {
     margin: 0;
     padding: 0;
@@ -287,7 +293,6 @@
     height: 56px;
   }
   .login-field:focus-within {
-    border-color: #2f7bff;
     background: #1e1e20;
   }
   .field-inner {
