@@ -369,6 +369,27 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    position: sticky;
+    top: -24px;
+    background: #161616;
+    z-index: 5;
+    padding-top: 4px;
+    padding-bottom: 10px;
+  }
+  .settings-header-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+  .settings-header-title.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
   .settings-back {
     background: none;
@@ -958,6 +979,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
         Kembali
       </button>
+      <span class="settings-header-title" id="settingsHeaderTitle">Pengaturan</span>
       <button class="settings-close" id="settingsClose">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
       </button>
@@ -1469,6 +1491,8 @@
       }
       settingsSheet.classList.add('show');
       settingsOverlay.classList.add('show');
+      settingsSheet.scrollTop = 0;
+      document.getElementById('settingsHeaderTitle').classList.remove('show');
     }
     function closeSettings() {
       settingsSheet.classList.remove('show');
@@ -1488,6 +1512,16 @@
     settingsBack.addEventListener('click', function() {
       closeSettings();
       openProfile();
+    });
+
+    // Animasi judul collapse saat scroll di halaman Pengaturan
+    const settingsHeaderTitle = document.getElementById('settingsHeaderTitle');
+    settingsSheet.addEventListener('scroll', function() {
+      if (settingsSheet.scrollTop > 40) {
+        settingsHeaderTitle.classList.add('show');
+      } else {
+        settingsHeaderTitle.classList.remove('show');
+      }
     });
 
     // ---- Ubah Nama ----
