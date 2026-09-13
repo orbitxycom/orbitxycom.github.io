@@ -1020,6 +1020,18 @@
     <button class="btn-logout" id="logoutBtn">Keluar dari akun</button>
   </div>
 
+  <div class="login-overlay" id="endSessionOverlay"></div>
+  <div class="login-sheet" id="endSessionSheet" style="padding-top:24px;">
+    <div class="settings-header" style="margin-bottom:14px;">
+      <h2 style="color:#fff;font-size:22px;font-weight:800;margin:0;">Mengakhiri sesi aktif</h2>
+      <button class="settings-close" id="endSessionClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      </button>
+    </div>
+    <div class="edit-desc" style="margin-bottom:22px;">Anda akan keluar dari akun di perangkat lain, tetapi selalu bisa masuk kembali</div>
+    <button class="btn-edit-submit enabled" id="endSessionConfirm">Akhiri</button>
+  </div>
+
   <div class="login-overlay" id="editNameOverlay"></div>
   <div class="login-sheet" id="editNameSheet">
     <div class="settings-header">
@@ -1575,6 +1587,7 @@
     function openEditPass() {
       editCurrentPass.value = '';
       editNewPass.value = '';
+      document.getElementById('editNewPass2').value = '';
       editPassMsg.textContent = '';
       editPassSheet.classList.add('show');
       editPassOverlay.classList.add('show');
@@ -1593,12 +1606,25 @@
       closeEditPass();
       openSettings();
     });
+
+    function diffPercent(a, b) {
+      if (!a) return 100;
+      const maxLen = Math.max(a.length, b.length);
+      let same = 0;
+      for (let i = 0; i < Math.min(a.length, b.length); i++) {
+        if (a[i] === b[i]) same++;
+      }
+      return ((maxLen - same) / maxLen) * 100;
+    }
+
     editPassSubmit.addEventListener('click', async function() {
       const curPass = editCurrentPass.value;
       const newPass = editNewPass.value;
-      if (!curPass || !newPass) {
+      const newPass2 = document.getElementById('editNewPass2').value;
+
+      if (!curPass || !newPass || !newPass2) {
         editPassMsg.style.color = '#ff5c5c';
-        editPassMsg.textContent = 'Isi kata sandi saat ini dan yang baru.';
+        editPassMsg.textContent = 'Lengkapi semua kolom.';
         return;
       }
       if (newPass.length < 8) {
@@ -1606,11 +1632,31 @@
         editPassMsg.textContent = 'Kata sandi baru minimal 8 karakter.';
         return;
       }
+      if (!/[0-9]/.test(newPass)) {
+        editPassMsg.style.color = '#ff5c5c';
+        editPassMsg.textContent = 'Kata sandi baru harus menyertakan 1 angka.';
+        return;
+      }
+      if (!/[a-z]/.test(newPass) || !/[A-Z]/.test(newPass)) {
+        editPassMsg.style.color = '#ff5c5c';
+        editPassMsg.textContent = 'Kata sandi baru harus ada huruf besar dan kecil.';
+        return;
+      }
+      if (diffPercent(curPass, newPass) < 50) {
+        editPassMsg.style.color = '#ff5c5c';
+        editPassMsg.textContent = 'Kata sandi baru harus cukup berbeda dari yang lama.';
+        return;
+      }
+      if (newPass !== newPass2) {
+        editPassMsg.style.color = '#ff5c5c';
+        editPassMsg.textContent = 'Kata sandi baru tidak cocok.';
+        return;
+      }
+
       editPassSubmit.disabled = true;
       editPassMsg.style.color = '#9a9a9a';
       editPassMsg.textContent = 'Memproses...';
 
-      // Verifikasi kata sandi saat ini
       const { error: verifyError } = await sb.auth.signInWithPassword({ email: currentEmail, password: curPass });
       if (verifyError) {
         editPassSubmit.disabled = false;
@@ -1636,12 +1682,32 @@
 
     // ---- Sesi aktif: akhiri sesi di perangkat lain ----
     const endSessionsBtn = document.getElementById('endSessionsBtn');
-    endSessionsBtn.addEventListener('click', async function() {
-      endSessionsBtn.disabled = true;
-      endSessionsBtn.textContent = '...';
+    const endSessionSheet = document.getElementById('endSessionSheet');
+    const endSessionOverlay = document.getElementById('endSessionOverlay');
+    const endSessionClose = document.getElementById('endSessionClose');
+    const endSessionConfirm = document.getElementById('endSessionConfirm');
+
+    function openEndSession() {
+      endSessionSheet.classList.add('show');
+      endSessionOverlay.classList.add('show');
+    }
+    function closeEndSession() {
+      endSessionSheet.classList.remove('show');
+      endSessionOverlay.classList.remove('show');
+    }
+    endSessionsBtn.addEventListener('click', openEndSession);
+    endSessionClose.addEventListener('click', closeEndSession);
+    endSessionOverlay.addEventListener('click', closeEndSession);
+    endSessionConfirm.addEventListener('click', async function() {
+      endSessionConfirm.disabled = true;
+      endSessionConfirm.textContent = 'Memproses...';
       await sb.auth.signOut({ scope: 'others' });
-      endSessionsBtn.textContent = 'Akhiri';
-      endSessionsBtn.disabled = false;
+      endSessionConfirm.textContent = 'Berhasil!';
+      setTimeout(function() {
+        endSessionConfirm.disabled = false;
+        endSessionConfirm.textContent = 'Akhiri';
+        closeEndSession();
+      }, 900);
     });
 
     // ---- Keluar dari akun ----
