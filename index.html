@@ -331,6 +331,24 @@
     transform: translateY(0);
     font-size: 12px;
   }
+  .toggle-eye {
+    background: none;
+    border: none;
+    color: #9a9a9a;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .toggle-eye.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .toggle-eye svg { width: 20px; height: 20px; }
   .login-field svg {
     width: 20px;
     height: 20px;
@@ -478,6 +496,9 @@
         <input type="password" placeholder=" " id="loginPass">
         <label for="loginPass">Kata sandi</label>
       </div>
+      <button type="button" class="toggle-eye" data-target="loginPass">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12s4-7.5 10.5-7.5S22.5 12 22.5 12s-4 7.5-10.5 7.5S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
     </div>
 
     <div class="forgot-pass">
@@ -529,6 +550,9 @@
         <input type="password" placeholder=" " id="regPass">
         <label for="regPass">Kata sandi</label>
       </div>
+      <button type="button" class="toggle-eye" data-target="regPass">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12s4-7.5 10.5-7.5S22.5 12 22.5 12s-4 7.5-10.5 7.5S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
     </div>
     <div class="field-hint">Minimal 8 karakter</div>
 
@@ -706,6 +730,25 @@
     daftarBtn.addEventListener('click', openRegister);
     registerClose.addEventListener('click', closeRegister);
     registerOverlay.addEventListener('click', closeRegister);
+
+    // Toggle mata (show/hide password)
+    document.querySelectorAll('.toggle-eye').forEach(function(btn) {
+      const input = document.getElementById(btn.dataset.target);
+      input.addEventListener('input', function() {
+        if (input.value.length > 0) {
+          btn.classList.add('show');
+        } else {
+          btn.classList.remove('show');
+        }
+      });
+      btn.addEventListener('click', function() {
+        if (input.type === 'password') {
+          input.type = 'text';
+        } else {
+          input.type = 'password';
+        }
+      });
+    });
 
     // ---- Supabase Auth ----
     const SUPABASE_URL = "https://xvvnnqpjiyervgnyffqs.supabase.co";
