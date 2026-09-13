@@ -270,6 +270,99 @@
     color: #8a8a8e;
   }
 
+  /* ---- Profil Modal ---- */
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 4px 0 16px;
+    border-bottom: 1px solid #2c2c2e;
+    margin-bottom: 20px;
+  }
+  .profile-header h2 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+  }
+  .profile-header .profile-close {
+    position: absolute;
+    right: 0;
+    background: none;
+    border: none;
+    color: #9a9a9a;
+    cursor: pointer;
+    display: flex;
+  }
+  .profile-header .profile-close svg { width: 22px; height: 22px; }
+  .profile-id-block {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .profile-id-block .p-uname {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .profile-id-block .p-uid {
+    color: #9a9a9a;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  .profile-id-block .p-uid svg {
+    width: 16px;
+    height: 16px;
+  }
+  .profile-section {
+    background: #1f1f21;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .profile-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #2a2a2c;
+  }
+  .profile-item:last-child {
+    border-bottom: none;
+  }
+  .profile-item .p-icon {
+    width: 22px;
+    height: 22px;
+    color: #cfcfcf;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .profile-item .p-icon .dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff5c1a;
+  }
+  .profile-item .p-text .p-title {
+    color: #f0f0f0;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .profile-item .p-text .p-sub {
+    color: #9a9a9a;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
   /* ---- Login Modal ---- */
   .login-overlay {
     position: fixed;
@@ -629,6 +722,46 @@
     </div>
   </div>
 
+  <div class="login-overlay" id="profileOverlay"></div>
+  <div class="login-sheet" id="profileSheet">
+    <div class="profile-header">
+      <h2>Profil</h2>
+      <button class="profile-close" id="profileClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      </button>
+    </div>
+
+    <div class="profile-id-block">
+      <span class="p-uname" id="profileUname">-</span>
+      <span class="p-uid" id="profileUidCopy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="7" width="12" height="12" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+        <span id="profileUid">ID -</span>
+      </span>
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-item">
+        <div class="p-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.6 1H21a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.6 1z"/></svg>
+          <span class="dot"></span>
+        </div>
+        <div class="p-text">
+          <div class="p-title">Pengaturan</div>
+          <div class="p-sub">Edit data pribadi</div>
+        </div>
+      </div>
+      <div class="profile-item">
+        <div class="p-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 0 1 18 0v5a2 2 0 0 1-2 2h-1v-6h3M3 17v-5h3v6H5a2 2 0 0 1-2-2z"/></svg>
+        </div>
+        <div class="p-text">
+          <div class="p-title">Dukungan 24/7</div>
+          <div class="p-sub">Semua metode kontak</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="header">
     <div class="logo">OBX</div>
     <div class="buttons">
@@ -754,10 +887,20 @@
     loginClose.addEventListener('click', closeLogin);
     loginOverlay.addEventListener('click', closeLogin);
 
+    let isLoggedIn = false;
+    let currentUname = '-';
+    let currentUid = '-';
+
     const masukRow = document.getElementById('masukRow');
     masukRow.addEventListener('click', function() {
       closeDrawer();
-      openLogin();
+      if (isLoggedIn) {
+        document.getElementById('profileUname').textContent = currentUname;
+        document.getElementById('profileUid').textContent = 'ID ' + currentUid;
+        openProfile();
+      } else {
+        openLogin();
+      }
     });
 
     const daftarBtn = document.getElementById('daftarBtn');
@@ -894,7 +1037,31 @@
         document.getElementById('drawerUserLabel').outerHTML =
           '<div class="drawer-user-info"><span class="uname">' + uname + '</span><span class="uid">ID ' + idNum + '</span></div>';
         document.getElementById('avatarDot').style.display = 'block';
+
+        isLoggedIn = true;
+        currentUname = uname;
+        currentUid = idNum;
       }
+    });
+
+    // Modal Profil
+    const profileSheet = document.getElementById('profileSheet');
+    const profileOverlay = document.getElementById('profileOverlay');
+    const profileClose = document.getElementById('profileClose');
+
+    function openProfile() {
+      profileSheet.classList.add('show');
+      profileOverlay.classList.add('show');
+    }
+    function closeProfile() {
+      profileSheet.classList.remove('show');
+      profileOverlay.classList.remove('show');
+    }
+    profileClose.addEventListener('click', closeProfile);
+    profileOverlay.addEventListener('click', closeProfile);
+
+    document.getElementById('profileUidCopy').addEventListener('click', function() {
+      navigator.clipboard.writeText(currentUid);
     });
   </script>
 </body>
