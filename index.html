@@ -363,6 +363,90 @@
     margin-top: 2px;
   }
 
+  /* ---- Settings (Pengaturan) Modal ---- */
+  .settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .settings-back {
+    background: none;
+    border: none;
+    color: #2f7bff;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 0;
+  }
+  .settings-back svg { width: 20px; height: 20px; }
+  .settings-close {
+    background: none;
+    border: none;
+    color: #9a9a9a;
+    cursor: pointer;
+    display: flex;
+  }
+  .settings-close svg { width: 22px; height: 22px; }
+  .settings-title {
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 800;
+    margin: 4px 0 20px;
+  }
+  .settings-group-label {
+    color: #9a9a9a;
+    font-size: 14px;
+    margin: 0 0 8px 2px;
+  }
+  .settings-section {
+    background: #1f1f21;
+    border-radius: 14px;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+  .settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #2a2a2c;
+  }
+  .settings-row:last-child {
+    border-bottom: none;
+  }
+  .settings-row .s-label {
+    color: #f0f0f0;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .settings-row .s-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #9a9a9a;
+    font-size: 14px;
+  }
+  .settings-row .s-value svg.chevron {
+    width: 16px;
+    height: 16px;
+    color: #7a7a7e;
+  }
+  .settings-warn {
+    color: #ff8a00;
+    font-size: 12px;
+    margin: -12px 0 14px 4px;
+  }
+  .badge-warn {
+    width: 18px;
+    height: 18px;
+    color: #ff8a00;
+  }
+
   /* ---- Login Modal ---- */
   .login-overlay {
     position: fixed;
@@ -740,7 +824,7 @@
     </div>
 
     <div class="profile-section">
-      <div class="profile-item">
+      <div class="profile-item" id="settingsRow">
         <div class="p-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.6 1H21a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.6 1z"/></svg>
           <span class="dot"></span>
@@ -760,6 +844,51 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="login-overlay" id="settingsOverlay"></div>
+  <div class="login-sheet" id="settingsSheet">
+    <div class="settings-header">
+      <button class="settings-back" id="settingsBack">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
+        Kembali
+      </button>
+      <button class="settings-close" id="settingsClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      </button>
+    </div>
+
+    <h2 class="settings-title">Pengaturan</h2>
+
+    <div class="settings-group-label">Data utama</div>
+    <div class="settings-section">
+      <div class="settings-row">
+        <span class="s-label">Nama</span>
+        <span class="s-value">
+          <span id="settingsNama">-</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+        </span>
+      </div>
+      <div class="settings-row">
+        <span class="s-label">Tanggal lahir</span>
+        <span class="s-value">
+          <span>Belum diatur</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="settings-group-label">Data kontak</div>
+    <div class="settings-section">
+      <div class="settings-row">
+        <span class="s-label">Email</span>
+        <span class="s-value">
+          <span id="settingsEmail">-</span>
+          <svg class="badge-warn" id="emailWarnIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 20h20L12 2z"/><rect x="11" y="9" width="2" height="6" fill="#1c1c1e"/><rect x="11" y="16" width="2" height="2" fill="#1c1c1e"/></svg>
+        </span>
+      </div>
+    </div>
+    <div class="settings-warn" id="emailWarnText">Perlu konfirmasi</div>
   </div>
 
   <div class="header">
@@ -890,6 +1019,8 @@
     let isLoggedIn = false;
     let currentUname = '-';
     let currentUid = '-';
+    let currentEmail = '-';
+    let currentEmailConfirmed = false;
 
     const masukRow = document.getElementById('masukRow');
     masukRow.addEventListener('click', function() {
@@ -1041,6 +1172,8 @@
         isLoggedIn = true;
         currentUname = uname;
         currentUid = idNum;
+        currentEmail = session.user.email || '-';
+        currentEmailConfirmed = !!session.user.email_confirmed_at;
       }
     });
 
@@ -1062,6 +1195,44 @@
 
     document.getElementById('profileUidCopy').addEventListener('click', function() {
       navigator.clipboard.writeText(currentUid);
+    });
+
+    // Modal Pengaturan
+    const settingsRow = document.getElementById('settingsRow');
+    const settingsSheet = document.getElementById('settingsSheet');
+    const settingsOverlay = document.getElementById('settingsOverlay');
+    const settingsClose = document.getElementById('settingsClose');
+    const settingsBack = document.getElementById('settingsBack');
+
+    function openSettings() {
+      document.getElementById('settingsNama').textContent = currentUname;
+      document.getElementById('settingsEmail').textContent = currentEmail || '-';
+      const warnIcon = document.getElementById('emailWarnIcon');
+      const warnText = document.getElementById('emailWarnText');
+      if (currentEmailConfirmed) {
+        warnIcon.style.display = 'none';
+        warnText.style.display = 'none';
+      } else {
+        warnIcon.style.display = 'block';
+        warnText.style.display = 'block';
+      }
+      settingsSheet.classList.add('show');
+      settingsOverlay.classList.add('show');
+    }
+    function closeSettings() {
+      settingsSheet.classList.remove('show');
+      settingsOverlay.classList.remove('show');
+    }
+
+    settingsRow.addEventListener('click', function() {
+      closeProfile();
+      openSettings();
+    });
+    settingsClose.addEventListener('click', closeSettings);
+    settingsOverlay.addEventListener('click', closeSettings);
+    settingsBack.addEventListener('click', function() {
+      closeSettings();
+      openProfile();
     });
   </script>
 </body>
