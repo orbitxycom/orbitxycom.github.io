@@ -495,6 +495,34 @@
     background: #1a73e8;
     color: #ffffff;
   }
+  .settings-hint {
+    color: #9a9a9a;
+    font-size: 13px;
+    margin: -12px 0 22px 4px;
+  }
+  .settings-row .s-action {
+    color: #ff5c1a;
+    font-size: 15px;
+    font-weight: 700;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-logout {
+    width: 100%;
+    background: #3a1a12;
+    color: #ff5c1a;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .btn-logout:hover {
+    background: #472016;
+  }
 
   /* ---- Login Modal ---- */
   .login-overlay {
@@ -938,6 +966,30 @@
       </div>
     </div>
     <div class="settings-warn" id="emailWarnText">Perlu konfirmasi</div>
+
+    <div class="settings-group-label">Keamanan</div>
+    <div class="settings-section">
+      <div class="settings-row" id="passwordRow">
+        <span class="s-label">Kata sandi</span>
+        <span class="s-value">
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+        </span>
+      </div>
+    </div>
+    <div class="settings-hint">Untuk mengubah, masukkan kata sandi saat ini</div>
+
+    <div class="settings-group-label">Pengaturan lainnya</div>
+    <div class="settings-section">
+      <div class="settings-row">
+        <div class="p-text">
+          <div class="p-title" style="font-size:15px;">Sesi aktif</div>
+          <div class="p-sub">Mengakhiri sesi di perangkat lain</div>
+        </div>
+        <button class="s-action" id="endSessionsBtn">Akhiri</button>
+      </div>
+    </div>
+
+    <button class="btn-logout" id="logoutBtn">Keluar dari akun</button>
   </div>
 
   <div class="login-overlay" id="editNameOverlay"></div>
@@ -977,6 +1029,31 @@
       <input type="date" id="editDobInput">
     </div>
     <button class="btn-edit-submit enabled" id="editDobSubmit">Ubah</button>
+  </div>
+
+  <div class="login-overlay" id="editPassOverlay"></div>
+  <div class="login-sheet" id="editPassSheet">
+    <div class="settings-header">
+      <button class="settings-back" id="editPassBack">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
+        Kembali
+      </button>
+      <button class="settings-close" id="editPassClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      </button>
+    </div>
+    <h2 class="settings-title">Ubah kata sandi</h2>
+    <div class="edit-desc">Masukkan kata sandi saat ini, lalu kata sandi baru</div>
+    <div class="edit-field">
+      <span class="e-label">Kata sandi saat ini</span>
+      <input type="password" id="editCurrentPass">
+    </div>
+    <div class="edit-field">
+      <span class="e-label">Kata sandi baru</span>
+      <input type="password" id="editNewPass">
+    </div>
+    <button class="btn-edit-submit enabled" id="editPassSubmit">Ubah</button>
+    <div id="editPassMsg" style="text-align:center;font-size:13px;margin-top:12px;"></div>
   </div>
 
   <div class="header">
@@ -1428,6 +1505,96 @@
       currentDob = val;
       closeEditDob();
       openSettings();
+    });
+
+    // ---- Ubah Kata Sandi ----
+    const passwordRow = document.getElementById('passwordRow');
+    const editPassSheet = document.getElementById('editPassSheet');
+    const editPassOverlay = document.getElementById('editPassOverlay');
+    const editPassClose = document.getElementById('editPassClose');
+    const editPassBack = document.getElementById('editPassBack');
+    const editCurrentPass = document.getElementById('editCurrentPass');
+    const editNewPass = document.getElementById('editNewPass');
+    const editPassSubmit = document.getElementById('editPassSubmit');
+    const editPassMsg = document.getElementById('editPassMsg');
+
+    function openEditPass() {
+      editCurrentPass.value = '';
+      editNewPass.value = '';
+      editPassMsg.textContent = '';
+      editPassSheet.classList.add('show');
+      editPassOverlay.classList.add('show');
+    }
+    function closeEditPass() {
+      editPassSheet.classList.remove('show');
+      editPassOverlay.classList.remove('show');
+    }
+    passwordRow.addEventListener('click', function() {
+      closeSettings();
+      openEditPass();
+    });
+    editPassClose.addEventListener('click', closeEditPass);
+    editPassOverlay.addEventListener('click', closeEditPass);
+    editPassBack.addEventListener('click', function() {
+      closeEditPass();
+      openSettings();
+    });
+    editPassSubmit.addEventListener('click', async function() {
+      const curPass = editCurrentPass.value;
+      const newPass = editNewPass.value;
+      if (!curPass || !newPass) {
+        editPassMsg.style.color = '#ff5c5c';
+        editPassMsg.textContent = 'Isi kata sandi saat ini dan yang baru.';
+        return;
+      }
+      if (newPass.length < 8) {
+        editPassMsg.style.color = '#ff5c5c';
+        editPassMsg.textContent = 'Kata sandi baru minimal 8 karakter.';
+        return;
+      }
+      editPassSubmit.disabled = true;
+      editPassMsg.style.color = '#9a9a9a';
+      editPassMsg.textContent = 'Memproses...';
+
+      // Verifikasi kata sandi saat ini
+      const { error: verifyError } = await sb.auth.signInWithPassword({ email: currentEmail, password: curPass });
+      if (verifyError) {
+        editPassSubmit.disabled = false;
+        editPassMsg.style.color = '#ff5c5c';
+        editPassMsg.textContent = 'Kata sandi saat ini salah.';
+        return;
+      }
+
+      const { error } = await sb.auth.updateUser({ password: newPass });
+      editPassSubmit.disabled = false;
+      if (error) {
+        editPassMsg.style.color = '#ff5c5c';
+        editPassMsg.textContent = error.message;
+      } else {
+        editPassMsg.style.color = '#23c65b';
+        editPassMsg.textContent = 'Kata sandi berhasil diubah!';
+        setTimeout(function() {
+          closeEditPass();
+          openSettings();
+        }, 900);
+      }
+    });
+
+    // ---- Sesi aktif: akhiri sesi di perangkat lain ----
+    const endSessionsBtn = document.getElementById('endSessionsBtn');
+    endSessionsBtn.addEventListener('click', async function() {
+      endSessionsBtn.disabled = true;
+      endSessionsBtn.textContent = '...';
+      await sb.auth.signOut({ scope: 'others' });
+      endSessionsBtn.textContent = 'Akhiri';
+      endSessionsBtn.disabled = false;
+    });
+
+    // ---- Keluar dari akun ----
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn.addEventListener('click', async function() {
+      await sb.auth.signOut();
+      location.reload();
     });
   </script>
 </body>
