@@ -523,6 +523,34 @@
   .btn-logout:hover {
     background: #472016;
   }
+  .pass-rules {
+    list-style: none;
+    padding: 0;
+    margin: -4px 0 18px 0;
+  }
+  .pass-rules li {
+    color: #9a9a9a;
+    font-size: 14px;
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .pass-rules li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #9a9a9a;
+  }
+  .pass-rules li.valid {
+    color: #23c65b;
+  }
+  .pass-rules li.valid::before {
+    background: #23c65b;
+  }
 
   /* ---- Login Modal ---- */
   .login-overlay {
@@ -1043,15 +1071,41 @@
       </button>
     </div>
     <h2 class="settings-title">Ubah kata sandi</h2>
-    <div class="edit-desc">Masukkan kata sandi saat ini, lalu kata sandi baru</div>
-    <div class="edit-field">
-      <span class="e-label">Kata sandi saat ini</span>
-      <input type="password" id="editCurrentPass">
+    <div class="edit-desc">Masukkan kata sandi saat ini</div>
+
+    <div class="login-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <div class="field-inner">
+        <input type="password" placeholder=" " id="editCurrentPass">
+        <label for="editCurrentPass">Kata sandi saat ini</label>
+      </div>
     </div>
-    <div class="edit-field">
-      <span class="e-label">Kata sandi baru</span>
-      <input type="password" id="editNewPass">
+
+    <div class="edit-desc" style="margin-top:8px;">Buat kata sandi baru</div>
+
+    <div class="login-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <div class="field-inner">
+        <input type="password" placeholder=" " id="editNewPass">
+        <label for="editNewPass">Kata sandi baru</label>
+      </div>
     </div>
+
+    <ul class="pass-rules">
+      <li>Minimal 8 karakter</li>
+      <li>Menyertakan 1 angka</li>
+      <li>Menyertakan huruf besar dan kecil</li>
+      <li>Berbeda dari kata sandi lama sebesar 50%</li>
+    </ul>
+
+    <div class="login-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <div class="field-inner">
+        <input type="password" placeholder=" " id="editNewPass2">
+        <label for="editNewPass2">Kata sandi baru lagi</label>
+      </div>
+    </div>
+
     <button class="btn-edit-submit enabled" id="editPassSubmit">Ubah</button>
     <div id="editPassMsg" style="text-align:center;font-size:13px;margin-top:12px;"></div>
   </div>
