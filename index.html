@@ -773,6 +773,22 @@
     font-weight: 700;
   }
 
+  #socialListSheet {
+    left: 0;
+    right: auto;
+    width: min(80vw, 320px);
+    top: 145px;
+    bottom: 0;
+    max-width: none;
+    max-height: none;
+    border-radius: 18px 18px 0 0;
+    transform: translateY(20px);
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
+  }
+  #socialListSheet.show {
+    transform: translateY(0);
+  }
+
   /* ---- Login Modal ---- */
   .login-overlay {
     position: fixed;
