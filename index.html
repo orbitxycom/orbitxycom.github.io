@@ -484,7 +484,8 @@
       <a href="#">Lupa kata sandi?</a>
     </div>
 
-    <button class="btn-login-submit">Masuk</button>
+    <button class="btn-login-submit" id="loginSubmitBtn">Masuk</button>
+    <div id="loginMsg" style="text-align:center;font-size:13px;margin-bottom:12px;min-height:16px;"></div>
 
     <div class="or-divider">atau</div>
 
@@ -536,7 +537,8 @@
       <label for="termsCheck">Dengan mengeklik "Daftar", saya menyetujui <a href="#">perjanjian pengguna</a></label>
     </div>
 
-    <button class="btn-login-submit">Daftar</button>
+    <button class="btn-login-submit" id="registerSubmitBtn">Daftar</button>
+    <div id="registerMsg" style="text-align:center;font-size:13px;margin-bottom:12px;min-height:16px;"></div>
 
     <div class="or-divider">atau</div>
 
@@ -641,6 +643,7 @@
     </button>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const menuBtn = document.getElementById('menuBtn');
     const drawer = document.getElementById('drawer');
@@ -703,6 +706,90 @@
     daftarBtn.addEventListener('click', openRegister);
     registerClose.addEventListener('click', closeRegister);
     registerOverlay.addEventListener('click', closeRegister);
+
+    // ---- Supabase Auth ----
+    const SUPABASE_URL = "https://xvvnnqpjiyervgnyffqs.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_Qp9izsQ77Ym9vzSBxwd--A_AZxfy4vs";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    function setMsg(el, text, isError) {
+      el.textContent = text;
+      el.style.color = isError ? "#ff5c5c" : "#23c65b";
+    }
+
+    // Daftar (Sign Up)
+    const registerSubmitBtn = document.getElementById('registerSubmitBtn');
+    const registerMsg = document.getElementById('registerMsg');
+    registerSubmitBtn.addEventListener('click', async function() {
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPass').value;
+      const agreed = document.getElementById('termsCheck').checked;
+
+      if (!email || !password) {
+        setMsg(registerMsg, "Isi email dan kata sandi dulu.", true);
+        return;
+      }
+      if (password.length < 8) {
+        setMsg(registerMsg, "Kata sandi minimal 8 karakter.", true);
+        return;
+      }
+      if (!agreed) {
+        setMsg(registerMsg, "Setujui perjanjian pengguna dulu.", true);
+        return;
+      }
+
+      registerSubmitBtn.disabled = true;
+      setMsg(registerMsg, "Memproses...", false);
+
+      const { data, error } = await sb.auth.signUp({ email, password });
+
+      registerSubmitBtn.disabled = false;
+
+      if (error) {
+        setMsg(registerMsg, error.message, true);
+      } else {
+        setMsg(registerMsg, "Berhasil daftar! Cek email untuk verifikasi.", false);
+      }
+    });
+
+    // Masuk (Sign In)
+    const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+    const loginMsg = document.getElementById('loginMsg');
+    loginSubmitBtn.addEventListener('click', async function() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPass').value;
+
+      if (!email || !password) {
+        setMsg(loginMsg, "Isi email dan kata sandi dulu.", true);
+        return;
+      }
+
+      loginSubmitBtn.disabled = true;
+      setMsg(loginMsg, "Memproses...", false);
+
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+      loginSubmitBtn.disabled = false;
+
+      if (error) {
+        setMsg(loginMsg, error.message, true);
+      } else {
+        setMsg(loginMsg, "Berhasil masuk!", false);
+        setTimeout(closeLogin, 800);
+      }
+    });
+
+    // Pantau status login, ubah tombol header jika sudah login
+    sb.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        masukBtn.textContent = session.user.email.split('@')[0];
+        daftarBtn.textContent = "Keluar";
+        daftarBtn.onclick = async function() {
+          await sb.auth.signOut();
+          location.reload();
+        };
+      }
+    });
   </script>
 </body>
 </html>
