@@ -446,6 +446,55 @@
     height: 18px;
     color: #ff8a00;
   }
+  .edit-desc {
+    color: #cfcfcf;
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  .edit-field {
+    background: #232325;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .edit-field .e-label {
+    color: #9a9a9a;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .edit-field input {
+    background: none;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 600;
+    width: 100%;
+  }
+  .edit-field input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+  }
+  .btn-edit-submit {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-edit-submit:disabled {
+    background: #1d3a63;
+    color: #8199b8;
+    cursor: not-allowed;
+  }
+  .btn-edit-submit.enabled {
+    background: #1a73e8;
+    color: #ffffff;
+  }
 
   /* ---- Login Modal ---- */
   .login-overlay {
@@ -862,17 +911,17 @@
 
     <div class="settings-group-label">Data utama</div>
     <div class="settings-section">
-      <div class="settings-row">
+      <div class="settings-row" id="namaRow">
         <span class="s-label">Nama</span>
         <span class="s-value">
           <span id="settingsNama">-</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
         </span>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" id="dobRow">
         <span class="s-label">Tanggal lahir</span>
         <span class="s-value">
-          <span>Belum diatur</span>
+          <span id="settingsDob">Belum diatur</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
         </span>
       </div>
@@ -889,6 +938,45 @@
       </div>
     </div>
     <div class="settings-warn" id="emailWarnText">Perlu konfirmasi</div>
+  </div>
+
+  <div class="login-overlay" id="editNameOverlay"></div>
+  <div class="login-sheet" id="editNameSheet">
+    <div class="settings-header">
+      <button class="settings-back" id="editNameBack">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
+        Kembali
+      </button>
+      <button class="settings-close" id="editNameClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      </button>
+    </div>
+    <h2 class="settings-title">Ubah nama</h2>
+    <div class="edit-desc">Masukkan nama</div>
+    <div class="edit-field">
+      <span class="e-label">Nama</span>
+      <input type="text" id="editNameInput">
+    </div>
+    <button class="btn-edit-submit" id="editNameSubmit" disabled>Ubah</button>
+  </div>
+
+  <div class="login-overlay" id="editDobOverlay"></div>
+  <div class="login-sheet" id="editDobSheet">
+    <div class="settings-header">
+      <button class="settings-back" id="editDobBack">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
+        Kembali
+      </button>
+      <button class="settings-close" id="editDobClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      </button>
+    </div>
+    <h2 class="settings-title">Ubah tanggal lahir</h2>
+    <div class="edit-desc">Silakan masukkan tanggal lahir Anda</div>
+    <div class="edit-field">
+      <input type="date" id="editDobInput">
+    </div>
+    <button class="btn-edit-submit enabled" id="editDobSubmit">Ubah</button>
   </div>
 
   <div class="header">
@@ -1021,6 +1109,7 @@
     let currentUid = '-';
     let currentEmail = '-';
     let currentEmailConfirmed = false;
+    let currentDob = '';
 
     const masukRow = document.getElementById('masukRow');
     masukRow.addEventListener('click', function() {
@@ -1150,23 +1239,39 @@
     });
 
     // Pantau status login, ubah tombol header jika sudah login
+    function refreshUnameDisplays() {
+      const unameSpan = document.querySelector('#masukRow .uname');
+      if (unameSpan) unameSpan.textContent = currentUname;
+      const profileUnameEl = document.getElementById('profileUname');
+      if (profileUnameEl) profileUnameEl.textContent = currentUname;
+    }
     sb.auth.onAuthStateChange((event, session) => {
       if (session) {
-        masukBtn.outerHTML = '<button class="btn-bell" id="bellBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.2c0 .6-.2 1.2-.6 1.7L4 15.5c-.6.8 0 2 1 2h14c1 0 1.6-1.2 1-2l-1.4-2.6c-.4-.5-.6-1.1-.6-1.7V8a6 6 0 0 0-6-6z"/><path d="M9.5 20a2.5 2.5 0 0 0 5 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>';
+        if (document.getElementById('masukBtn')) {
+          masukBtn.outerHTML = '<button class="btn-bell" id="bellBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.2c0 .6-.2 1.2-.6 1.7L4 15.5c-.6.8 0 2 1 2h14c1 0 1.6-1.2 1-2l-1.4-2.6c-.4-.5-.6-1.1-.6-1.7V8a6 6 0 0 0-6-6z"/><path d="M9.5 20a2.5 2.5 0 0 0 5 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>';
+        }
         daftarBtn.style.display = "none";
 
-        // Generate username & ID acak, konsisten per akun (berdasarkan user id)
+        // Nama: pakai yang sudah disimpan user (kalau ada), atau generate acak dari user id
         const uid = session.user.id.replace(/-/g, '');
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let uname = '';
-        for (let i = 0; i < 10; i++) {
-          const idx = parseInt(uid.substr((i * 2) % uid.length, 2), 16) % chars.length;
-          uname += chars[idx];
+        let uname = session.user.user_metadata && session.user.user_metadata.display_name;
+        if (!uname) {
+          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          uname = '';
+          for (let i = 0; i < 10; i++) {
+            const idx = parseInt(uid.substr((i * 2) % uid.length, 2), 16) % chars.length;
+            uname += chars[idx];
+          }
         }
         const idNum = (parseInt(uid.substr(0, 8), 16) % 900000000 + 100000000).toString();
 
-        document.getElementById('drawerUserLabel').outerHTML =
-          '<div class="drawer-user-info"><span class="uname">' + uname + '</span><span class="uid">ID ' + idNum + '</span></div>';
+        const labelEl = document.getElementById('drawerUserLabel');
+        if (labelEl) {
+          labelEl.outerHTML =
+            '<div class="drawer-user-info"><span class="uname">' + uname + '</span><span class="uid">ID ' + idNum + '</span></div>';
+        } else {
+          document.querySelector('#masukRow .uname').textContent = uname;
+        }
         document.getElementById('avatarDot').style.display = 'block';
 
         isLoggedIn = true;
@@ -1174,6 +1279,8 @@
         currentUid = idNum;
         currentEmail = session.user.email || '-';
         currentEmailConfirmed = !!session.user.email_confirmed_at;
+        currentDob = (session.user.user_metadata && session.user.user_metadata.birthdate) || '';
+        refreshUnameDisplays();
       }
     });
 
@@ -1207,6 +1314,7 @@
     function openSettings() {
       document.getElementById('settingsNama').textContent = currentUname;
       document.getElementById('settingsEmail').textContent = currentEmail || '-';
+      document.getElementById('settingsDob').textContent = currentDob ? formatDob(currentDob) : 'Belum diatur';
       const warnIcon = document.getElementById('emailWarnIcon');
       const warnText = document.getElementById('emailWarnText');
       if (currentEmailConfirmed) {
@@ -1223,6 +1331,10 @@
       settingsSheet.classList.remove('show');
       settingsOverlay.classList.remove('show');
     }
+    function formatDob(iso) {
+      const [y, m, d] = iso.split('-');
+      return d + '/' + m + '/' + y;
+    }
 
     settingsRow.addEventListener('click', function() {
       closeProfile();
@@ -1233,6 +1345,89 @@
     settingsBack.addEventListener('click', function() {
       closeSettings();
       openProfile();
+    });
+
+    // ---- Ubah Nama ----
+    const namaRow = document.getElementById('namaRow');
+    const editNameSheet = document.getElementById('editNameSheet');
+    const editNameOverlay = document.getElementById('editNameOverlay');
+    const editNameClose = document.getElementById('editNameClose');
+    const editNameBack = document.getElementById('editNameBack');
+    const editNameInput = document.getElementById('editNameInput');
+    const editNameSubmit = document.getElementById('editNameSubmit');
+
+    function openEditName() {
+      editNameInput.value = currentUname;
+      editNameSubmit.disabled = true;
+      editNameSubmit.classList.remove('enabled');
+      editNameSheet.classList.add('show');
+      editNameOverlay.classList.add('show');
+    }
+    function closeEditName() {
+      editNameSheet.classList.remove('show');
+      editNameOverlay.classList.remove('show');
+    }
+    namaRow.addEventListener('click', function() {
+      closeSettings();
+      openEditName();
+    });
+    editNameClose.addEventListener('click', closeEditName);
+    editNameOverlay.addEventListener('click', closeEditName);
+    editNameBack.addEventListener('click', function() {
+      closeEditName();
+      openSettings();
+    });
+    editNameInput.addEventListener('input', function() {
+      const changed = editNameInput.value.trim() !== '' && editNameInput.value.trim() !== currentUname;
+      editNameSubmit.disabled = !changed;
+      editNameSubmit.classList.toggle('enabled', changed);
+    });
+    editNameSubmit.addEventListener('click', async function() {
+      const newName = editNameInput.value.trim();
+      if (!newName) return;
+      editNameSubmit.disabled = true;
+      await sb.auth.updateUser({ data: { display_name: newName } });
+      currentUname = newName;
+      refreshUnameDisplays();
+      closeEditName();
+      openSettings();
+    });
+
+    // ---- Ubah Tanggal Lahir ----
+    const dobRow = document.getElementById('dobRow');
+    const editDobSheet = document.getElementById('editDobSheet');
+    const editDobOverlay = document.getElementById('editDobOverlay');
+    const editDobClose = document.getElementById('editDobClose');
+    const editDobBack = document.getElementById('editDobBack');
+    const editDobInput = document.getElementById('editDobInput');
+    const editDobSubmit = document.getElementById('editDobSubmit');
+
+    function openEditDob() {
+      editDobInput.value = currentDob || '';
+      editDobSheet.classList.add('show');
+      editDobOverlay.classList.add('show');
+    }
+    function closeEditDob() {
+      editDobSheet.classList.remove('show');
+      editDobOverlay.classList.remove('show');
+    }
+    dobRow.addEventListener('click', function() {
+      closeSettings();
+      openEditDob();
+    });
+    editDobClose.addEventListener('click', closeEditDob);
+    editDobOverlay.addEventListener('click', closeEditDob);
+    editDobBack.addEventListener('click', function() {
+      closeEditDob();
+      openSettings();
+    });
+    editDobSubmit.addEventListener('click', async function() {
+      const val = editDobInput.value;
+      if (!val) return;
+      await sb.auth.updateUser({ data: { birthdate: val } });
+      currentDob = val;
+      closeEditDob();
+      openSettings();
     });
   </script>
 </body>
