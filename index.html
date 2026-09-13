@@ -778,11 +778,23 @@
     right: auto;
     width: min(80vw, 320px);
     top: 145px;
-    bottom: 0;
+    bottom: 155px;
     max-width: none;
     max-height: none;
     border-radius: 18px 18px 0 0;
     box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
+    transform: translateY(calc(100% + 200px));
+    opacity: 0;
+    pointer-events: none;
+  }
+  #socialListSheet.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #socialListOverlay.show {
+    background: transparent;
   }
 
   /* ---- Login Modal ---- */
