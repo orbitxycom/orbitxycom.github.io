@@ -184,6 +184,34 @@
     color: #cfcfcf;
   }
   .avatar svg { width: 22px; height: 22px; }
+  .avatar {
+    position: relative;
+  }
+  .avatar-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5c1a;
+    border: 2px solid #1c1c1e;
+    display: none;
+  }
+  .drawer-user-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .drawer-user-info .uname {
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 800;
+  }
+  .drawer-user-info .uid {
+    color: #9a9a9a;
+    font-size: 13px;
+    margin-top: 2px;
+  }
   .drawer-user span {
     color: #ffffff;
     font-size: 17px;
@@ -620,8 +648,9 @@
       <div class="drawer-user">
         <div class="avatar">
           <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+          <span class="avatar-dot" id="avatarDot"></span>
         </div>
-        <span>Masuk</span>
+        <span id="drawerUserLabel">Masuk</span>
       </div>
       <span class="drawer-arrow">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
@@ -851,6 +880,20 @@
       if (session) {
         masukBtn.outerHTML = '<button class="btn-bell" id="bellBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.2c0 .6-.2 1.2-.6 1.7L4 15.5c-.6.8 0 2 1 2h14c1 0 1.6-1.2 1-2l-1.4-2.6c-.4-.5-.6-1.1-.6-1.7V8a6 6 0 0 0-6-6z"/><path d="M9.5 20a2.5 2.5 0 0 0 5 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>';
         daftarBtn.style.display = "none";
+
+        // Generate username & ID acak, konsisten per akun (berdasarkan user id)
+        const uid = session.user.id.replace(/-/g, '');
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let uname = '';
+        for (let i = 0; i < 10; i++) {
+          const idx = parseInt(uid.substr((i * 2) % uid.length, 2), 16) % chars.length;
+          uname += chars[idx];
+        }
+        const idNum = (parseInt(uid.substr(0, 8), 16) % 900000000 + 100000000).toString();
+
+        document.getElementById('drawerUserLabel').outerHTML =
+          '<div class="drawer-user-info"><span class="uname">' + uname + '</span><span class="uid">ID ' + idNum + '</span></div>';
+        document.getElementById('avatarDot').style.display = 'block';
       }
     });
   </script>
