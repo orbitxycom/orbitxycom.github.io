@@ -2,7 +2,10 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+  html { touch-action: manipulation; }
+</style>
 <title>Header orbitxy</title>
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,10 +30,13 @@
     padding: clamp(14px, 3.5vw, 20px) clamp(16px, 4vw, 28px);
   }
   .logo {
-    color: #ffffff;
-    font-size: clamp(18px, 4.5vw, 24px);
+    font-size: clamp(20px, 5vw, 26px);
     font-weight: 800;
     letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #ffb347 0%, #ff2d78 20%, #8b2fd6 38%, #2f7bff 55%, #14c4b0 75%, #4ade80 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .buttons {
     display: flex;
@@ -1461,7 +1467,7 @@
   </div>
 
   <div class="header">
-    <div class="logo">OBX</div>
+    <div class="logo">orbitxy</div>
     <div class="buttons">
       <button class="btn btn-masuk" id="masukBtn">Masuk</button>
       <button class="btn btn-daftar" id="daftarBtn">Pendaftaran</button>
