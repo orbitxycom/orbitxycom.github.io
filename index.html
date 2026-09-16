@@ -2190,7 +2190,7 @@
       tab.addEventListener('click', function() {
         document.querySelectorAll('.notif-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        if (tab.dataset.tab === 'semua') {
+        if (tab.dataset.tab === 'pribadi') {
           notifContentSemua.style.display = 'block';
           notifContentDefault.style.display = 'none';
         } else {
