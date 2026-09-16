@@ -765,10 +765,27 @@
   .notif-intro-card {
     display: flex;
     gap: 14px;
-    background: #1f1f21;
-    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
     padding: 16px;
     margin-bottom: 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .notif-intro-card::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(circle at 20% 20%, rgba(255,179,71,0.5), transparent 45%),
+                radial-gradient(circle at 80% 30%, rgba(139,47,214,0.5), transparent 45%),
+                radial-gradient(circle at 50% 90%, rgba(47,123,255,0.4), transparent 45%);
+    z-index: -1;
+    filter: blur(10px);
   }
   .notif-intro-card .ic-icon {
     width: 44px;
