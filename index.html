@@ -1466,7 +1466,20 @@
       <button class="notif-tab active" data-tab="umum">Umum</button>
     </div>
 
-    <div class="notif-empty">
+    <div id="notifContentSemua" style="display:none;">
+      <div class="notif-intro-card">
+        <div class="ic-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <div class="ic-title">Selamat datang di orbitxy! 🎉</div>
+          <div class="ic-desc">Terima kasih sudah bergabung bersama kami. Selamat menikmati pengalaman terbaik di orbitxy!</div>
+          <div class="ic-time">Baru saja</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="notifContentDefault" class="notif-empty">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.2c0 .6-.2 1.2-.6 1.7L4 15.5c-.6.8 0 2 1 2h14c1 0 1.6-1.2 1-2l-1.4-2.6c-.4-.5-.6-1.1-.6-1.7V8a6 6 0 0 0-6-6z"/><path d="M9.5 20a2.5 2.5 0 0 0 5 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
       <div class="n-title">Tidak ada apa-apa</div>
       <div class="n-sub">Saat notifikasi diterima, akan ditampilkan di bagian ini</div>
@@ -2171,10 +2184,19 @@
     });
 
     // Switch tab notifikasi
+    const notifContentSemua = document.getElementById('notifContentSemua');
+    const notifContentDefault = document.getElementById('notifContentDefault');
     document.querySelectorAll('.notif-tab').forEach(function(tab) {
       tab.addEventListener('click', function() {
         document.querySelectorAll('.notif-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
+        if (tab.dataset.tab === 'semua') {
+          notifContentSemua.style.display = 'block';
+          notifContentDefault.style.display = 'none';
+        } else {
+          notifContentSemua.style.display = 'none';
+          notifContentDefault.style.display = 'block';
+        }
       });
     });
 
