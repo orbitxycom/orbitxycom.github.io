@@ -19,8 +19,6 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .top{display:flex;align-items:center;gap:10px;padding:14px 0}
 .circ{width:46px;height:46px;border-radius:50%;background:var(--btn);display:grid;place-items:center}
-.up{height:46px;border-radius:23px;background:var(--pill);color:var(--blue);padding:0 18px;display:flex;align-items:center;gap:8px;font-weight:600;font-size:18px}
-.up svg{width:20px;height:20px;fill:currentColor;stroke:none}
 .sp{flex:1}
 #log{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:8px 0}
 .u{align-self:flex-end;max-width:80%;background:var(--bub);padding:10px 16px;border-radius:20px;font-size:16px;line-height:1.4}
@@ -111,11 +109,13 @@ body{background:var(--frame)}
 const $=id=>document.getElementById(id),log=$('log'),t=$('t'),go=$('go'),ic=$('ic');
 const PHONE='<path d="M5 3h4l2 5-2.5 1.5a11 11 0 006 6L16 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/>',ARROW='<path d="M12 19V5M5 12l7-7 7 7"/>';
 const replies=['Tentu, saya bantu. Ceritakan sedikit lebih detail ya.','Baik! Ini poin awalnya, nanti kita kembangkan bersama.','Siap. Mau saya buatkan versi singkat atau lengkap?'];
+const KANGEN='kangen ? Mending lu tidur deh !';
 function sync(){const has=t.value.trim()!=='';go.classList.toggle('snd',has);ic.innerHTML=has?ARROW:PHONE;$('mic').classList.toggle('hide',has);go.setAttribute('aria-label',has?'Kirim pesan':'Panggilan suara')}
 function add(txt,c){const d=document.createElement('div');d.className=c;d.textContent=txt;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
-function send(){const v=t.value.trim();if(!v)return;$('sug').classList.add('hide');if(!log.children.length){addH(mk(v))}add(v,'u');t.value='';sync();
+function send(){const v=t.value.trim();if(!v)return;$('sug').classList.add('hide');const first=!log.children.length;if(first){addH(mk(v))}add(v,'u');t.value='';sync();
 const d=add('','a');d.innerHTML='<div class="dots"><i></i><i></i><i></i></div>';
-setTimeout(()=>{d.textContent=replies[Math.floor(Math.random()*replies.length)]},1100)}
+const special=first&&/^kangen/i.test(v);
+setTimeout(()=>{d.textContent=special?KANGEN:replies[Math.floor(Math.random()*replies.length)]},1100)}
 go.onclick=()=>{if(t.value.trim())send()};
 t.addEventListener('input',sync);t.addEventListener('keydown',e=>{if(e.key==='Enter')send()});
 document.querySelectorAll('.sug button').forEach(b=>b.onclick=()=>{t.value=b.dataset.q;$('sug').classList.add('hide');$('plus').setAttribute('aria-expanded','false');t.focus();sync()});
