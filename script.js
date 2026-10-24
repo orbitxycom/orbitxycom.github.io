@@ -10,12 +10,28 @@ let busy = false, started = false;
 
 /* ---- Tema ---- */
 const root = document.documentElement;
-if (matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
 $('#theme').onclick = () => root.classList.toggle('dark');
 
 /* ---- Sidebar ---- */
-const toggleSb = () => $('#sidebar').classList.toggle('closed');
-$('#toggle').onclick = toggleSb; $('#toggle2').onclick = toggleSb;
+const sb = $('#sidebar');
+if (innerWidth <= 768) sb.classList.add('collapsed');
+const toggleSb = () => sb.classList.toggle('collapsed');
+$('#openBtn').onclick = toggleSb; $('#closeBtn').onclick = toggleSb; $('#mobBtn').onclick = toggleSb;
+
+/* ---- Private / Public ---- */
+const menu = $('#visMenu');
+$('#visBtn').onclick = (e) => { e.stopPropagation(); menu.classList.toggle('open'); };
+menu.querySelectorAll('button').forEach(b => b.onclick = () => { $('#visLabel').textContent = b.dataset.v; menu.classList.remove('open'); });
+document.addEventListener('click', () => menu.classList.remove('open'));
+
+/* ---- Delete all ---- */
+const dlg = $('#dlg');
+$('#delAll').onclick = () => dlg.classList.add('open');
+$('#dlgNo').onclick = () => dlg.classList.remove('open');
+$('#dlgYes').onclick = () => {
+  hist.querySelectorAll('.hist-item').forEach(n => n.remove());
+  $('#histEmpty').style.display = ''; dlg.classList.remove('open'); showEmpty();
+};
 
 /* ---- Tampilan awal ---- */
 function showEmpty() {
@@ -24,10 +40,10 @@ function showEmpty() {
     <div class="empty">
       <div class="greet-t">What can I help with?</div>
       <div class="greet-s">Ask a question, write code, or explore ideas.</div>
-      <div class="sugs">${SUGGESTIONS.map((s, i) =>
-        `<button class="sug" style="animation-delay:${0.8 + i * 0.06}s">${s}</button>`).join('')}</div>
     </div>`;
-  inner.querySelectorAll('.sug').forEach(b => b.onclick = () => submit(b.textContent));
+  $('#sugsWrap').innerHTML = `<div class="sugs">${SUGGESTIONS.map((s, i) =>
+    `<button class="sug" style="animation-delay:${0.06 * i}s">${s}</button>`).join('')}</div>`;
+  document.querySelectorAll('.sug').forEach(b => b.onclick = () => submit(b.textContent));
 }
 $('#newChat').onclick = showEmpty;
 
@@ -61,10 +77,10 @@ async function submit(text) {
   if (!text || busy) return;
   busy = true; send.disabled = true;
   if (!started) {
-    started = true; inner.innerHTML = '';
+    started = true; inner.innerHTML = ''; $('#sugsWrap').innerHTML = ''; $('#histEmpty').style.display = 'none';
     const a = document.createElement('button');
     a.className = 'hist-item active'; a.textContent = text.slice(0, 40);
-    hist.insertBefore(a, hist.children[1]);
+    hist.insertBefore(a, hist.children[2]);
   }
   input.value = ''; input.style.height = '';
   addUser(text);
